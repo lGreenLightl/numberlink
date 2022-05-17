@@ -5,22 +5,22 @@ from PyQt6.QtWidgets import QDialog, QApplication, QWidget, QStackedWidget, QMes
 
 
 class WelcomeScreen(QDialog):
-    def __init__(self):
+    def __init__(self) -> None:
         super(WelcomeScreen, self).__init__()
-        loadUi("WelcomeScreen.ui", self)
+        loadUi("../resource/WelcomeScreen.ui", self)
         self.NewGameButton.clicked.connect(self.go_to_new_game)
         self.ExitButton.clicked.connect(self.exit_game)
         self.ContinueButton.clicked.connect(self.continue_game)
 
-    def go_to_new_game(self):
+    def go_to_new_game(self) -> None:
         new_game = NewGameScreen()
         widget.addWidget(new_game)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
-    def exit_game(self):
+    def exit_game(self) -> None:
         widget.close()
 
-    def continue_game(self):
+    def continue_game(self) -> None:
         mess = QMessageBox()
         mess.setWindowTitle("Недоступно")
         mess.setText("Сохранение и загрузка игр пока недоступны")
@@ -28,12 +28,11 @@ class WelcomeScreen(QDialog):
         mess.setStandardButtons(QMessageBox.StandardButton.Ok)
         mess.exec()
 
+
 class NewGameScreen(QDialog):
-    def __init__(self):
+    def __init__(self) -> None:
         super(NewGameScreen, self).__init__()
-        loadUi("NewGameScreen.ui", self)
-
-
+        loadUi("../resource/NewGameScreen.ui", self)
 
 
 app = QApplication(sys.argv)
@@ -49,3 +48,4 @@ try:
 except:
     print("Exiting")
 
+# TODO: от Дани - добавить метод main и if __name__ == "__main__"
