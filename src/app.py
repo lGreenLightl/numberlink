@@ -1,4 +1,5 @@
 import sys
+import time
 from PyQt6.uic import loadUi
 from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QDialog, QApplication, QWidget, QStackedWidget, QMessageBox
@@ -32,7 +33,60 @@ class WelcomeScreen(QDialog):
 class NewGameScreen(QDialog):
     def __init__(self) -> None:
         super(NewGameScreen, self).__init__()
+
         loadUi("../resource/NewGameScreen.ui", self)
+        self.StartNewGameButton.clicked.connect(self.start_new_game)
+        self.BackButton.clicked.connect(self.back)
+
+    def start_new_game(self):
+        if self.NameLineEdit.text() == "":
+            self.ErrorSizeLabel.setText("")
+            create_message("Нехватает данных", "Пожалуйста, укажите свое имя")
+
+        elif self.LevelComboBox.currentText() == "":
+            self.ErrorSizeLabel.setText("")
+            create_message("Нехватает данных", "Пожалуйста, выберите уровень сложности")
+
+        elif self.FormComboBox.currentText() == "":
+            self.ErrorSizeLabel.setText("")
+            create_message("Нехватает данных", "Пожалуйста, выберите форму поля")
+        elif self.HeightLabel.text() == "" or self.WidthLabel.text() == "":
+            self.ErrorSizeLabel.setText("")
+            create_message("Пожалуйста, введите размеры поля")
+        elif self.FormComboBox.currentText() == "Квадрат" and self.HeightLabel.text() != self.WidthLabel.text():
+            self.ErrorSizeLabel.setText("")
+            create_message("Ошибка ввода данных", f"Ваша форма поля - {self.FormComboBox.currentText()},\nВысота "
+                                                  f"и ширина поля должны быть одинаковыми!")
+
+        elif (not is_digit(self.HeightLabel.text()) or
+              not is_digit(self.WidthLabel.text()) or
+              int(self.HeightLabel.text()) <= 0 or
+              int(self.WidthLabel.text()) <= 0):
+
+            self.ErrorSizeLabel.setText("Некорректный ввод")
+
+        else:
+            self.ErrorSizeLabel.setText("")
+
+    def back(self):
+        self.close()
+        widget.removeWidget(self)
+
+
+def create_message(label, text):
+    mess = QMessageBox()
+    mess.setText(text)
+    mess.setIcon(QMessageBox.Icon.Warning)
+    mess.setStandardButtons(QMessageBox.StandardButton.Ok)
+    mess.exec()
+
+
+def is_digit(string):
+    try:
+        int(string)
+        return True
+    except ValueError:
+        return False
 
 
 app = QApplication(sys.argv)
@@ -40,7 +94,7 @@ welcome = WelcomeScreen()
 widget = QStackedWidget()
 widget.addWidget(welcome)
 widget.setFixedHeight(800)
-widget.setFixedWidth(1200)
+widget.setFixedWidth(1062)
 widget.show()
 
 try:
