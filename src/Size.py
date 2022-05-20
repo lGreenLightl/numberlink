@@ -1,5 +1,5 @@
 class Size:
-    def __init__(self, size: tuple) -> None:
+    def __init__(self, size) -> None:
         if len(size) > 1:
             self.Weight: int = size[0]
             self.Height: int = size[1]

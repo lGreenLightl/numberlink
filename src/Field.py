@@ -1,7 +1,7 @@
 class Field:
     def __init__(self, size, form) -> None:
-        self.Form = form  # TODO: от Дани: название файлов с маленькой буквы, название полей тоже.
-        self.Size = size  # TODO: от Дани: где тайпинг??))))
+        self.Form = form
+        self.Size = size
         self.Field = self.generate_field()
 
     def generate_field(self):

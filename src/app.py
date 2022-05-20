@@ -47,5 +47,3 @@ try:
     sys.exit(app.exec())
 except:
     print("Exiting")
-
-# TODO: от Дани - добавить метод main и if __name__ == "__main__"

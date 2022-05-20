@@ -14,4 +14,4 @@ class Game:
         self.Field = Field(Size(field_weight, field_height), field_form,)
 
     def start(self):
-        pass  # TODO: от Дани: не забываем про pass :)
+        pass
