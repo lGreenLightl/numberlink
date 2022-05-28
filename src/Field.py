@@ -5,8 +5,6 @@ class Field:
         self.Field = self.generate_field()
 
     def generate_field(self):
-        field = None
-        if self.Form == "SQUARE" or "RECTANGLE":
-            field = [['.'] * self.Size.Weight for _ in range(self.Size.Height)]
+        field = [['.'] * self.Size.Weight for _ in range(self.Size.Height)]
         return field
 
