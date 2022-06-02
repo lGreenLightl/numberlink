@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1200</width>
+      <height>800</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+QWidget#widget{
+background-color:qlineargradient(spread:pad, x1:0.003, y1:0.017, x2:1, y2:0.983, stop:0 rgba(119, 203, 239, 255), stop:1 rgba(236, 211, 69, 255))}</string>
+    </property>
+    <widget class="QFrame" name="frame">
+     <property name="geometry">
+      <rect>
+       <x>780</x>
+       <y>178</y>
+       <width>361</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:rgb(255, 255, 255);
+border-radius: 20px;
+shadow-effect: green
+</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>10</y>
+        <width>161</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 75 22pt &quot;MS Shell Dlg 2&quot;;
+color:rgb(67, 65, 49);
+font-weight:bold
+</string>
+      </property>
+      <property name="text">
+       <string>КЛИКИ</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ClicksLabel">
+      <property name="geometry">
+       <rect>
+        <x>34</x>
+        <y>80</y>
+        <width>301</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 75 20pt &quot;MS Shell Dlg 2&quot;;
+color:rgb(67, 65, 49);
+
+</string>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QFrame" name="frame_2">
+     <property name="geometry">
+      <rect>
+       <x>780</x>
+       <y>361</y>
+       <width>361</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:rgb(255, 255, 255);
+border-radius: 20px;
+shadow-effect: green
+</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>10</y>
+        <width>331</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 75 22pt &quot;MS Shell Dlg 2&quot;;
+color:rgb(67, 65, 49);
+font-weight:bold
+</string>
+      </property>
+      <property name="text">
+       <string>ЛУЧШИЙ СЧЕТ</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ScoreLabel">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>80</y>
+        <width>301</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 75 20pt &quot;MS Shell Dlg 2&quot;;
+color:rgb(67, 65, 49);
+
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QFrame" name="frame_3">
+     <property name="geometry">
+      <rect>
+       <x>780</x>
+       <y>540</y>
+       <width>361</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:rgb(255, 255, 255);
+border-radius: 20px;
+shadow-effect: green
+</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QPushButton" name="ResetButton">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>25</y>
+        <width>321</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 25px;
+background: #ECD345;
+padding: 20px;
+width: 200px;
+height: 150px;
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+color:rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>НАЧАТЬ СНАЧАЛА</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="ExitButton">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>120</y>
+        <width>321</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 25px;
+background: rgba(119, 203, 239, 255);
+padding: 20px;
+width: 200px;
+height: 150px;
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+color:rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>ВЫХОД</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="GameWidget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>60</y>
+       <width>681</width>
+       <height>681</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:rgb(248, 244, 255);
+border-radius: 20px;
+shadow-effect: green
+
+</string>
+     </property>
+    </widget>
+    <widget class="QFrame" name="frame_4">
+     <property name="geometry">
+      <rect>
+       <x>780</x>
+       <y>59</y>
+       <width>361</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:rgb(255, 255, 255);
+border-radius: 20px;
+shadow-effect: green
+</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QLabel" name="NameLabel">
+      <property name="geometry">
+       <rect>
+        <x>24</x>
+        <y>25</y>
+        <width>311</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 75 20pt &quot;MS Shell Dlg 2&quot;;
+color:rgb(67, 65, 49);
+
+</string>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
