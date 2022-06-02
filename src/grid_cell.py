@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import QWidget, QLabel, QSizePolicy
 from src.Color import Color
 
 
-class Cell(QLabel):
+class Cell(QWidget):
     clicked = QtCore.pyqtSignal()
 
     def mousePressEvent(self, QMouseEvent):
@@ -19,34 +19,34 @@ class Cell(QLabel):
         self.Color = Color(255, 255, 255)
         self.setStyleSheet(
             f"background-color:rgb({self.Color.Red}, {self.Color.Green}, {self.Color.Blue}); "
-            f"border-radius: 20px; font: 75 20pt \"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
+            f"border-radius: 20px;")
         #if text == ".":
         #    self.setText("")
         #else:
         #    self.setText(text)
-        self.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        #self.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.ClickLabel = click_label
-        self.clicked.connect(self.click_label)
+        self.clicked.connect(self.click_widget)
 
 
 
 
 
-    def click_label(self) -> None:
+    def click_widget(self) -> None:
         self.increase_click_count()
         self.set_color()
 
-    def clean_label(self) -> None:
+    def clean_widget(self) -> None:
         self.Color = Color(255, 255, 255)
         self.setStyleSheet(
             f"background-color:rgb({self.Color.Red}, {self.Color.Green}, {self.Color.Blue}); "
-            f"border-radius: 20px; font: 75 20pt \"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
+            f"border-radius: 20px;")
 
     def increase_click_count(self) -> None:
         self.ClickLabel.setText(str(int(self.ClickLabel.text()) + 1))
 
     def set_color(self) -> None:
-        if self.text() == "":
+        #if self.text() == "":
             if self.Color == Color(255, 255, 255):
                 color = self.random_choose_color()
             else:
@@ -54,7 +54,7 @@ class Cell(QLabel):
             self.Color = color
             self.setStyleSheet(
                 f"background-color:rgb({self.Color.Red}, {self.Color.Green}, {self.Color.Blue}); "
-                f"border-radius: 20px; font: 75 20pt \"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
+                f"border-radius: 20px;")
 
     def random_choose_color(self) -> Color:
         red = random.randint(0, 254)

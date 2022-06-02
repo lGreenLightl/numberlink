@@ -1,11 +1,6 @@
 import sys
-import this
-import time
 
-from PyQt6.QtCore import QTimer
-from PyQt6.QtGui import QPalette
 from PyQt6.uic import loadUi
-from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QDialog, QApplication, QWidget, QStackedWidget, QMessageBox, QMainWindow, QLabel, \
     QGridLayout, QLayout
 
@@ -29,7 +24,10 @@ class GameScreen(QMainWindow):
         grid_layout = QGridLayout()
         for i in range(0, self.Game.Field.Size.Height):
             for j in range(0, self.Game.Field.Size.Weight):
-                grid_layout.addWidget(Cell(self.Game.Field.Field[i][j], self.ClicksLabel), i, j)
+                #w = QWidget() почему так работает
+                #w.setStyleSheet(f"background-color:rgb({255}, {255}, {255}); "
+                #                f"border-radius: 20px;")
+                grid_layout.addWidget(Cell(self.Game.Field.Field[i][j], self.ClicksLabel), i, j) #а так не раотает?
 
         self.GameGrid = grid_layout
         self.GameWidget.setLayout(grid_layout)
@@ -41,10 +39,10 @@ class GameScreen(QMainWindow):
         self.ClicksLabel.setText('0')
 
         # придумать, как адекватно сделать зачистку клеток
-        #for i in range(0, self.Game.Field.Size.Height):
-        #    for j in range(0, self.Game.Field.Size.Weight):
-        #      current_item = self.GameGrid.itemAtPosition(i, j).widget()
-        #        current_item.clean_cell
+        for i in range(0, self.Game.Field.Size.Height):
+            for j in range(0, self.Game.Field.Size.Weight):
+                current_item = self.GameGrid.itemAtPosition(i, j).widget()
+                current_item.clean_widget  # почему не работает
 
 
 class WelcomeScreen(QDialog):
