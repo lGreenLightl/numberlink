@@ -214,11 +214,6 @@ color:rgb(67, 65, 49)</string>
      </item>
      <item>
       <property name="text">
-       <string>Прямоугольник</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
        <string>Квадрат</string>
       </property>
      </item>

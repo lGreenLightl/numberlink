@@ -1,13 +1,16 @@
 import sys
+import this
 import time
 
 from PyQt6.QtCore import QTimer
+from PyQt6.QtGui import QPalette
 from PyQt6.uic import loadUi
 from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QDialog, QApplication, QWidget, QStackedWidget, QMessageBox, QMainWindow, QLabel, \
     QGridLayout, QLayout
 
 from src.Game import Game
+from src.grid_cell import Cell
 
 
 class GameScreen(QMainWindow):
@@ -16,13 +19,32 @@ class GameScreen(QMainWindow):
         loadUi("../resource/GameScreen.ui", self)
         self.ExitButton.clicked.connect(self.exit_game)
         self.NameLabel.setText(game.User_name)
+        self.ResetButton.clicked.connect(self.reset_game)
+        self.ClicksLabel.setText('0')
         self.Game = game
+        self.GameGrid = QGridLayout()
+        self.create_layout()
 
-    def init_grid(self):
-        pass
+    def create_layout(self):
+        grid_layout = QGridLayout()
+        for i in range(0, self.Game.Field.Size.Height):
+            for j in range(0, self.Game.Field.Size.Weight):
+                grid_layout.addWidget(Cell(self.Game.Field.Field[i][j], self.ClicksLabel), i, j)
+
+        self.GameGrid = grid_layout
+        self.GameWidget.setLayout(grid_layout)
 
     def exit_game(self) -> None:
         widget.close()
+
+    def reset_game(self) -> None:
+        self.ClicksLabel.setText('0')
+
+        # придумать, как адекватно сделать зачистку клеток
+        #for i in range(0, self.Game.Field.Size.Height):
+        #    for j in range(0, self.Game.Field.Size.Weight):
+        #      current_item = self.GameGrid.itemAtPosition(i, j).widget()
+        #        current_item.clean_cell
 
 
 class WelcomeScreen(QDialog):
@@ -57,7 +79,6 @@ class NewGameScreen(QDialog):
         loadUi("../resource/NewGameScreen.ui", self)
         self.StartNewGameButton.clicked.connect(self.start_new_game)
         self.BackButton.clicked.connect(self.back)
-
 
     def start_new_game(self):
         if self.NameLineEdit.text() == "":

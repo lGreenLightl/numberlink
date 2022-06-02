@@ -90,7 +90,7 @@ color:rgb(67, 65, 49);
 </string>
       </property>
       <property name="text">
-       <string/>
+       <string>0</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -232,7 +232,7 @@ color:rgb(255, 255, 255);</string>
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="TableWidget" native="true">
+    <widget class="QWidget" name="GameWidget" native="true">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -242,27 +242,12 @@ color:rgb(255, 255, 255);</string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color:rgb(0, 255, 255);
+      <string notr="true">background-color:rgb(248, 244, 255);
 border-radius: 20px;
 shadow-effect: green
 
 </string>
      </property>
-     <widget class="QWidget" name="gridLayoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>661</width>
-        <height>661</height>
-       </rect>
-      </property>
-      <layout class="QGridLayout" name="PlayGrid">
-       <property name="sizeConstraint">
-        <enum>QLayout::SetFixedSize</enum>
-       </property>
-      </layout>
-     </widget>
     </widget>
     <widget class="QFrame" name="frame_4">
      <property name="geometry">
