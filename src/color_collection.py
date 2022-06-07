@@ -1,5 +1,6 @@
 color_collection = []
 
+
 def in_collection(color) -> bool:
     answer = False
     for c in color_collection:

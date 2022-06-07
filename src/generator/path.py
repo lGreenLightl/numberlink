@@ -1,4 +1,4 @@
-import utils
+from src.utils import Utils
 
 
 class Path:
@@ -6,7 +6,7 @@ class Path:
         self.positions = positions
 
     def __repr__(self):
-        return ''.join({utils.T: '2', utils.R: 'R', utils.L: 'L'}[position] for position in self.positions)
+        return ''.join({Utils.T: '2', Utils.R: 'R', Utils.L: 'L'}[position] for position in self.positions)
 
     def get_positions(self, dx=0, dy=1):
         x, y = 0, 0
@@ -16,16 +16,16 @@ class Path:
             x, y = x + dx, y + dy
             yield x, y
 
-            if position == utils.L:
+            if position == Utils.L:
                 dx, dy = -dy, dx
-            if position == utils.R:
+            if position == Utils.R:
                 dx, dy = dy, -dx
-            elif position == utils.T:
+            elif position == Utils.T:
                 x, y = x + dx, y + dy
                 yield x, y
 
     def taping(self):
-        return self.positions.count(utils.R) - self.positions.count(utils.L)
+        return self.positions.count(Utils.R) - self.positions.count(Utils.L)
 
     def check_path(self):
         ps = list(self.get_positions())

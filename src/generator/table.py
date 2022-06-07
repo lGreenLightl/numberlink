@@ -1,8 +1,8 @@
 import random
 from collections import defaultdict
 
-import utils
-from path import Path
+from src.utils import Utils
+from src.generator.path import Path
 
 
 class Table:
@@ -19,8 +19,8 @@ class Table:
             self.dictionary[x, y, dx, dy].append(path)
 
     def cached_paths(self, dx, dy, xn, yn, dxn, dyn):
-        x, y = utils.inverse(xn, yn, dx, dy)
-        dxk, dyk = utils.inverse(dxn, dyn, dx, dy)
+        x, y = Utils.inverse(xn, yn, dx, dy)
+        dxk, dyk = Utils.inverse(dxn, dyn, dx, dy)
         return self.dictionary[x, y, dxk, dyk]
 
     def correct_paths(self, x, y, dx, dy, budget, init_set=None):
@@ -37,16 +37,16 @@ class Table:
         if (x1, y1) not in init_set:
             for path, end in self.correct_paths(
                     x1, y1, -dy, dx, budget - self.lr_price, init_set):
-                yield (utils.L,) + path, end
+                yield (Utils.L,) + path, end
             for path, end in self.correct_paths(
                     x1, y1, dy, -dx, budget - self.lr_price, init_set):
-                yield (utils.R,) + path, end
+                yield (Utils.R,) + path, end
             init_set.add((x1, y1))
             x2, y2 = x1 + dx, y1 + dy
             if (x2, y2) not in init_set:
                 for path, end in self.correct_paths(
                         x2, y2, dx, dy, budget - self.t_price, init_set):
-                    yield (utils.T,) + path, end
+                    yield (Utils.T,) + path, end
             init_set.remove((x1, y1))
         init_set.remove((x, y))
 
@@ -74,7 +74,7 @@ class Table:
             init_set.add((x, y))
 
             for _ in range(2 * (abs(xn) + abs(yn))):
-                position, = random.choices([utils.L, utils.R, utils.T],
+                position, = random.choices([Utils.L, Utils.R, Utils.T],
                                            [1 / self.lr_price, 1 / self.lr_price, 2 / self.t_price])
                 path.append(position)
                 x, y = x + dx, y + dy
@@ -84,11 +84,11 @@ class Table:
 
                 init_set.add((x, y))
 
-                if position == utils.L:
+                if position == Utils.L:
                     dx, dy = -dy, dx
-                if position == utils.R:
+                if position == Utils.R:
                     dx, dy = dy, -dx
-                elif position == utils.T:
+                elif position == Utils.T:
                     x, y = x + dx, y + dy
                     if (x, y) in init_set:
                         break

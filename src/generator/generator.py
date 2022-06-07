@@ -2,9 +2,9 @@ import argparse
 import math
 import random
 
-import utils
-from table import Table
-from grid import Grid
+from src.utils import Utils
+from src.generator.table import Table
+from src.generator.grid import Grid
 
 
 def create_grid(width, height, table, min_amount=0, max_amount=20):
@@ -25,7 +25,7 @@ def create_grid(width, height, table, min_amount=0, max_amount=20):
         grid.draw_path(path2, 2 * width, 2 * height, 0, -1)
         grid[2 * width, 0], grid[2 * width, 2 * height] = '/', '\\'
 
-        if utils.check_grid(grid, min_amount, max_amount):
+        if Utils.check_grid(grid, min_amount, max_amount):
             return grid.split_grid()
 
         tg, _ = grid.make_tubes()
@@ -47,7 +47,7 @@ def create_grid(width, height, table, min_amount=0, max_amount=20):
                 numbers = list(stg.values()).count('x') // 2
                 if numbers > max_amount:
                     break
-                if utils.check_grid(grid, min_amount, max_amount):
+                if Utils.check_grid(grid, min_amount, max_amount):
                     return sg
 
 
@@ -65,7 +65,7 @@ def start_generator():
     table.prepare_table(min(20, max(height, 6)))
 
     grid = create_grid(width, height, table, min_amount, max_amount)
-    color_grid, mapping = utils.color_tubes(grid)
+    color_grid, mapping = Utils.color_tubes(grid)
 
     for y in range(color_grid.height):
         for x in range(color_grid.width):

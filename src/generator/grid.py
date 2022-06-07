@@ -1,5 +1,5 @@
-import utils
-from pair_finder import PairFinder
+from src.utils import Utils
+from src.generator.pair_finder import PairFinder
 
 
 class Grid:
@@ -75,7 +75,7 @@ class Grid:
                 (1, 1, -1): '>', (-1, -1, 1): '>',
                 (1, 1, 1): '<', (-1, -1, -1): '<'
             }[xn - xp, yn - yp,
-              utils.sign((x - xp) * (yn - y) - (xn - x) * (y - yp))]
+              Utils.sign((x - xp) * (yn - y) - (xn - x) * (y - yp))]
 
     def clear_path(self, path, x, y):
         grid = Grid(self.width, self.height)

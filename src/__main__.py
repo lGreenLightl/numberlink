@@ -1,24 +1,18 @@
 import sys
-import this
-import time
 
-from PyQt6.QtCore import QTimer
-from PyQt6.QtGui import QPalette
 from PyQt6.uic import loadUi
-from PyQt6 import QtWidgets
-from PyQt6.QtWidgets import QDialog, QApplication, QWidget, QStackedWidget, QMessageBox, QMainWindow, QLabel, \
-    QGridLayout, QLayout
+from PyQt6.QtWidgets import QDialog, QApplication, QStackedWidget, QMessageBox, QMainWindow, QGridLayout
 
-from src.Game import Game
-from src.grid_cell import Cell
+from src.cell import Cell
+from src.game import Game
 
 
 class GameScreen(QMainWindow):
     def __init__(self, game) -> None:
         super(GameScreen, self).__init__()
-        loadUi("../resource/GameScreen.ui", self)
+        loadUi("resource/GameScreen.ui", self)
         self.ExitButton.clicked.connect(self.exit_game)
-        self.NameLabel.setText(game.User_name)
+        self.NameLabel.setText(game.user_name)
         self.ResetButton.clicked.connect(self.reset_game)
         self.ClicksLabel.setText('0')
         self.Game = game
@@ -29,50 +23,53 @@ class GameScreen(QMainWindow):
 
     def create_layout(self):
         grid_layout = QGridLayout()
-        for i in range(0, self.Game.Field.Size.Height):
-            for j in range(0, self.Game.Field.Size.Weight):
+        for i in range(0, self.Game.field.size.height):
+            for j in range(0, self.Game.field.size.width):
                 grid_layout.addWidget(self.Cells[i][j], i, j)
 
         self.GameGrid = grid_layout
         self.GameWidget.setLayout(grid_layout)
 
     def create_cells(self):
-        for i in range(0, self.Game.Field.Size.Height):
+        for i in range(0, self.Game.field.size.height):
             c = []
-            for j in range(0, self.Game.Field.Size.Weight):
-                c.append(Cell(self.Game.Field.Field[i][j], self.ClicksLabel))
+            for j in range(0, self.Game.field.size.width):
+                c.append(Cell(self.Game.field.field[i][j], self.ClicksLabel))
             self.Cells.append(c)
 
-
-    def exit_game(self) -> None:
+    @staticmethod
+    def exit_game() -> None:
         widget.close()
 
     def reset_game(self) -> None:
         self.ClicksLabel.setText('0')
 
         # придумать, как адекватно сделать зачистку клеток
-        for i in range(0, self.Game.Field.Size.Height):
-            for j in range(0, self.Game.Field.Size.Weight):
+        for i in range(0, self.Game.field.size.height):
+            for j in range(0, self.Game.field.size.width):
                 self.Cells[i][j].clean_label()
 
 
 class WelcomeScreen(QDialog):
     def __init__(self) -> None:
         super(WelcomeScreen, self).__init__()
-        loadUi("../resource/WelcomeScreen.ui", self)
+        loadUi("resource/WelcomeScreen.ui", self)
         self.NewGameButton.clicked.connect(self.go_to_new_game)
         self.ExitButton.clicked.connect(self.exit_game)
         self.ContinueButton.clicked.connect(self.continue_game)
 
-    def go_to_new_game(self) -> None:
+    @staticmethod
+    def go_to_new_game() -> None:
         new_game = NewGameScreen()
         widget.addWidget(new_game)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
-    def exit_game(self) -> None:
+    @staticmethod
+    def exit_game() -> None:
         widget.close()
 
-    def continue_game(self) -> None:
+    @staticmethod
+    def continue_game() -> None:
         mess = QMessageBox()
         mess.setWindowTitle("Недоступно")
         mess.setText("Сохранение и загрузка игр пока недоступны")
@@ -85,7 +82,7 @@ class NewGameScreen(QDialog):
     def __init__(self) -> None:
         super(NewGameScreen, self).__init__()
 
-        loadUi("../resource/NewGameScreen.ui", self)
+        loadUi("resource/NewGameScreen.ui", self)
         self.StartNewGameButton.clicked.connect(self.start_new_game)
         self.BackButton.clicked.connect(self.back)
 
@@ -115,7 +112,6 @@ class NewGameScreen(QDialog):
               int(self.WidthLabel.text()) <= 0):
 
             self.ErrorSizeLabel.setText("Некорректный ввод")
-
 
         else:
             game = GameScreen(Game(
