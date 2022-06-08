@@ -7,7 +7,7 @@ from src.generator.table import Table
 from src.generator.grid import Grid
 
 
-def create_grid(width, height, table, min_amount=0, max_amount=20):
+def create_grid(width, height, table, min_amount=0, max_amount=1000):
     grid = Grid(2 * width + 1, 2 * height + 1)
 
     while True:
@@ -49,34 +49,3 @@ def create_grid(width, height, table, min_amount=0, max_amount=20):
                     break
                 if Utils.check_grid(grid, min_amount, max_amount):
                     return sg
-
-
-def start_generator():
-    args_parser = argparse.ArgumentParser()
-    args_parser.add_argument('width', type=int, default=5)
-    args_parser.add_argument('height', type=int, default=5)
-    args = args_parser.parse_args()
-
-    width, height = args.width, args.height
-    numbers_amount = int(math.sqrt(width * height))
-    min_amount = numbers_amount * 2 // 3
-    max_amount = numbers_amount * 3 // 2
-    table = Table(2, 1)
-    table.prepare_table(min(20, max(height, 6)))
-
-    grid = create_grid(width, height, table, min_amount, max_amount)
-    color_grid, mapping = Utils.color_tubes(grid)
-
-    for y in range(color_grid.height):
-        for x in range(color_grid.width):
-            if grid[x, y] in 'v^<>':
-                print(color_grid[x, y], end='')
-            else:
-                print('.', end='')
-        print()
-    print()
-    print(repr(color_grid).replace('-', '─').replace('|', '│'))
-
-
-if __name__ == '__main__':
-    start_generator()
