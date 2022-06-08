@@ -5,12 +5,18 @@ from PyQt6.QtWidgets import QDialog, QApplication, QStackedWidget, QMessageBox, 
 
 from src.cell import Cell
 from src.game import Game
+from src.utils import Utils
 
 
 class GameScreen(QMainWindow):
     def __init__(self, game) -> None:
         super(GameScreen, self).__init__()
-        loadUi("resource/GameScreen.ui", self)
+        self.GameWidget = None
+        self.ClicksLabel = None
+        self.ResetButton = None
+        self.NameLabel = None
+        self.ExitButton = None
+        loadUi("ui/GameScreen.ui", self)
         self.ExitButton.clicked.connect(self.exit_game)
         self.NameLabel.setText(game.user_name)
         self.ResetButton.clicked.connect(self.reset_game)
@@ -53,7 +59,10 @@ class GameScreen(QMainWindow):
 class WelcomeScreen(QDialog):
     def __init__(self) -> None:
         super(WelcomeScreen, self).__init__()
-        loadUi("resource/WelcomeScreen.ui", self)
+        self.ContinueButton = None
+        self.ExitButton = None
+        self.NewGameButton = None
+        loadUi("ui/WelcomeScreen.ui", self)
         self.NewGameButton.clicked.connect(self.go_to_new_game)
         self.ExitButton.clicked.connect(self.exit_game)
         self.ContinueButton.clicked.connect(self.continue_game)
@@ -82,34 +91,42 @@ class NewGameScreen(QDialog):
     def __init__(self) -> None:
         super(NewGameScreen, self).__init__()
 
-        loadUi("resource/NewGameScreen.ui", self)
+        self.WidthLabel = None
+        self.HeightLabel = None
+        self.FormComboBox = None
+        self.LevelComboBox = None
+        self.ErrorSizeLabel = None
+        self.NameLineEdit = None
+        self.BackButton = None
+        self.StartNewGameButton = None
+        loadUi("ui/NewGameScreen.ui", self)
         self.StartNewGameButton.clicked.connect(self.start_new_game)
         self.BackButton.clicked.connect(self.back)
 
     def start_new_game(self):
         if self.NameLineEdit.text() == "":
             self.ErrorSizeLabel.setText("")
-            create_message("Нехватает данных", "Пожалуйста, укажите свое имя")
+            Utils.create_message("Нехватает данных", "Пожалуйста, укажите свое имя")
 
         elif self.LevelComboBox.currentText() == "":
             self.ErrorSizeLabel.setText("")
-            create_message("Нехватает данных", "Пожалуйста, выберите уровень сложности")
+            Utils.create_message("Нехватает данных", "Пожалуйста, выберите уровень сложности")
 
         elif self.FormComboBox.currentText() == "":
             self.ErrorSizeLabel.setText("")
-            create_message("Нехватает данных", "Пожалуйста, выберите форму поля")
+            Utils.create_message("Нехватает данных", "Пожалуйста, выберите форму поля")
         elif self.HeightLabel.text() == "" or self.WidthLabel.text() == "":
             self.ErrorSizeLabel.setText("")
-            create_message("Нехватает данных", "Пожалуйста, введите размеры поля")
+            Utils.create_message("Нехватает данных", "Пожалуйста, введите размеры поля")
         elif self.FormComboBox.currentText() == "Квадрат" and self.HeightLabel.text() != self.WidthLabel.text():
             self.ErrorSizeLabel.setText("")
-            create_message("Ошибка ввода данных", f"Ваша форма поля - {self.FormComboBox.currentText()},\nВысота "
-                                                  f"и ширина поля должны быть одинаковыми!")
+            Utils.create_message("Ошибка ввода данных", f"Ваша форма поля - {self.FormComboBox.currentText()},\nВысота "
+                                                        f"и ширина поля должны быть одинаковыми!")
 
-        elif (not is_digit(self.HeightLabel.text()) or
-              not is_digit(self.WidthLabel.text()) or
-              int(self.HeightLabel.text()) <= 0 or
-              int(self.WidthLabel.text()) <= 0):
+        elif (not Utils.is_digit(self.HeightLabel.text()) or
+              not Utils.is_digit(self.WidthLabel.text()) or
+              int(self.HeightLabel.text()) <= 2 or
+              int(self.WidthLabel.text()) <= 2):
 
             self.ErrorSizeLabel.setText("Некорректный ввод")
 
@@ -128,23 +145,6 @@ class NewGameScreen(QDialog):
         widget.removeWidget(self)
 
 
-def create_message(label, text):
-    mess = QMessageBox()
-    mess.setWindowTitle(label)
-    mess.setText(text)
-    mess.setIcon(QMessageBox.Icon.Warning)
-    mess.setStandardButtons(QMessageBox.StandardButton.Ok)
-    mess.exec()
-
-
-def is_digit(string):
-    try:
-        int(string)
-        return True
-    except ValueError:
-        return False
-
-
 app = QApplication(sys.argv)
 welcome = WelcomeScreen()
 widget = QStackedWidget()
@@ -156,5 +156,5 @@ widget.show()
 
 try:
     sys.exit(app.exec())
-except:
+except SystemExit:
     print("Exiting")

@@ -43,18 +43,17 @@ class Cell(QLabel):
         self.ClickLabel.setText(str(int(self.ClickLabel.text()) + 1))
 
     def set_color(self) -> None:
-        if self.text() == "":
-            if self.color == Color(255, 255, 255):
+        if self.color == Color(255, 255, 255):
+            color = self.random_choose_color()
+            if in_collection(color):
                 color = self.random_choose_color()
-                if in_collection(color):
-                    color = self.random_choose_color()
-            else:
-                color_collection.remove(self.color)
-                color = Color(255, 255, 255)
-            self.color = color
-            self.setStyleSheet(
-                f"background-color:rgb({self.color.red}, {self.color.green}, {self.color.blue}); "
-                f"border-radius: 20px; font: 75 20pt \"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
+        else:
+            color_collection.remove(self.color)
+            color = Color(255, 255, 255)
+        self.color = color
+        self.setStyleSheet(
+            f"background-color:rgb({self.color.red}, {self.color.green}, {self.color.blue}); "
+            f"border-radius: 20px; font: 75 20pt \"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
 
     @staticmethod
     def random_choose_color() -> Color:

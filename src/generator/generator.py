@@ -1,13 +1,10 @@
-import argparse
-import math
 import random
 
 from src.utils import Utils
-from src.generator.table import Table
 from src.generator.grid import Grid
 
 
-def create_grid(width, height, table, min_amount=0, max_amount=1000):
+def create_grid(width, height, table, min_amount=0, max_amount=20):
     grid = Grid(2 * width + 1, 2 * height + 1)
 
     while True:

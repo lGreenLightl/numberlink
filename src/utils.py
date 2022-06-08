@@ -1,5 +1,6 @@
 import colorama
 from colorama import Fore
+from PyQt6.QtWidgets import QMessageBox
 
 import string
 from collections import defaultdict
@@ -63,23 +64,40 @@ class Utils:
 
     @staticmethod
     def color_tubes(grid):
-        colorama.init()
-        colors = [Fore.WHITE, Fore.YELLOW, Fore.RED, Fore.BLUE, Fore.GREEN,
-                  Fore.CYAN, Fore.MAGENTA, Fore.LIGHTRED_EX, Fore.LIGHTBLUE_EX, Fore.LIGHTGREEN_EX]
-        colors = colors + [c + colorama.Style.BRIGHT for c in colors]
-        reset = colorama.Style.RESET_ALL + Fore.RESET
+        try:
+            colorama.init()
+            colors = [Fore.WHITE, Fore.YELLOW, Fore.RED, Fore.BLUE, Fore.GREEN,
+                      Fore.CYAN, Fore.MAGENTA, Fore.LIGHTRED_EX, Fore.LIGHTBLUE_EX, Fore.LIGHTGREEN_EX]
+            colors = colors + [c + colorama.Style.BRIGHT for c in colors]
 
-        tube_grid, pf = grid.make_tubes()
+            tube_grid, pf = grid.make_tubes()
 
-        letters = string.digits[1:] + string.ascii_letters
-        char = defaultdict(lambda: letters[len(char)])
-        color = defaultdict(lambda: colors[len(color) % len(colors)])
+            letters = string.digits[1:] + string.ascii_letters
+            char = defaultdict(lambda: letters[len(char)])
+            color = defaultdict(lambda: colors[len(color) % len(colors)])
 
-        for x in range(tube_grid.width):
-            for y in range(tube_grid.height):
-                if tube_grid[x, y] == 'x':
-                    tube_grid[x, y] = char[pf.find((x, y))]
+            for x in range(tube_grid.width):
+                for y in range(tube_grid.height):
+                    if tube_grid[x, y] == 'x':
+                        tube_grid[x, y] = char[pf.find((x, y))]
 
-                tube_grid[x, y] = color[pf.find((x, y))] + tube_grid[x, y] + reset
+            return tube_grid, char
+        except ValueError:
+            print('Incorrect grid!')
 
-        return tube_grid, char
+    @staticmethod
+    def create_message(label, text):
+        mess = QMessageBox()
+        mess.setWindowTitle(label)
+        mess.setText(text)
+        mess.setIcon(QMessageBox.Icon.Warning)
+        mess.setStandardButtons(QMessageBox.StandardButton.Ok)
+        mess.exec()
+
+    @staticmethod
+    def is_digit(str):
+        try:
+            int(str)
+            return True
+        except ValueError:
+            return False
