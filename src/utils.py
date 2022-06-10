@@ -1,5 +1,3 @@
-import colorama
-from colorama import Fore
 from PyQt6.QtWidgets import QMessageBox
 
 import string
@@ -28,7 +26,8 @@ class Utils:
                 for dx, dy in ((1, 0), (0, 1)):
                     xn, yn = x + dx, y + dy
                     if xn < tg.width and yn < tg.height:
-                        if tg[x, y] == tg[xn, yn] == 'x' and pf.find((x, y)) == pf.find((xn, yn)):
+                        if (tg[x, y] == tg[xn, yn] == 'x' and
+                                pf.find((x, y)) == pf.find((xn, yn))):
                             return True
         return False
 
@@ -40,7 +39,9 @@ class Utils:
                 nbs = 0
                 for dx, dy in ((1, 0), (0, 1), (-1, 0), (0, -1)):
                     xn, yn = x + dx, y + dy
-                    if 0 <= xn < tg.width and 0 <= yn < tg.height and pf.find((xn, yn)) == r:
+                    if (0 <= xn < tg.width and
+                            0 <= yn < tg.height and
+                            pf.find((xn, yn)) == r):
                         nbs += 1
                 if nbs >= 3:
                     return True
@@ -48,8 +49,12 @@ class Utils:
 
     @staticmethod
     def loops_check(grid, pf):
-        ends = sum(bool(grid[x, y] in 'v^<>') for y in range(grid.height) for x in range(grid.width))
-        pairs = len({pf.find((x, y)) for y in range(grid.height) for x in range(grid.width)})
+        ends = sum(bool(grid[x, y] in 'v^<>')
+                   for y in range(grid.height)
+                   for x in range(grid.width))
+        pairs = len({pf.find((x, y))
+                     for y in range(grid.height)
+                     for x in range(grid.width)})
         return 2 * pairs != ends
 
     @staticmethod
@@ -65,16 +70,10 @@ class Utils:
     @staticmethod
     def color_tubes(grid):
         try:
-            colorama.init()
-            colors = [Fore.WHITE, Fore.YELLOW, Fore.RED, Fore.BLUE, Fore.GREEN,
-                      Fore.CYAN, Fore.MAGENTA, Fore.LIGHTRED_EX, Fore.LIGHTBLUE_EX, Fore.LIGHTGREEN_EX]
-            colors = colors + [c + colorama.Style.BRIGHT for c in colors]
-
             tube_grid, pf = grid.make_tubes()
 
             letters = string.digits[1:] + string.ascii_letters
             char = defaultdict(lambda: letters[len(char)])
-            color = defaultdict(lambda: colors[len(color) % len(colors)])
 
             for x in range(tube_grid.width):
                 for y in range(tube_grid.height):

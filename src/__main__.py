@@ -1,7 +1,8 @@
 import sys
 
 from PyQt6.uic import loadUi
-from PyQt6.QtWidgets import QDialog, QApplication, QStackedWidget, QMessageBox, QMainWindow, QGridLayout
+from PyQt6.QtWidgets import (QDialog, QApplication, QStackedWidget,
+                             QMessageBox, QMainWindow, QGridLayout)
 
 from src.cell import Cell
 from src.game import Game

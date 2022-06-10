@@ -19,8 +19,10 @@ class Cell(QLabel):
 
         self.color = Color(255, 255, 255)
         self.setStyleSheet(
-            f"background-color:rgb({self.color.red}, {self.color.green}, {self.color.blue}); "
-            f"border-radius: 20px; font: 75 20pt \"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
+            f"background-color:rgb"
+            f"({self.color.red}, {self.color.green}, {self.color.blue}); "
+            f"border-radius: 20px; font: 75 20pt "
+            f"\"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
         if text == ".":
             self.setText("")
         else:
@@ -36,8 +38,10 @@ class Cell(QLabel):
     def clean_label(self) -> None:
         self.color = Color(255, 255, 255)
         self.setStyleSheet(
-            f"background-color:rgb({self.color.red}, {self.color.green}, {self.color.blue}); "
-            f"border-radius: 20px; font: 75 20pt \"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
+            f"background-color:rgb"
+            f"({self.color.red}, {self.color.green}, {self.color.blue}); "
+            f"border-radius: 20px; font: 75 20pt "
+            f"\"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
 
     def increase_click_count(self) -> None:
         self.ClickLabel.setText(str(int(self.ClickLabel.text()) + 1))
@@ -52,8 +56,10 @@ class Cell(QLabel):
             color = Color(255, 255, 255)
         self.color = color
         self.setStyleSheet(
-            f"background-color:rgb({self.color.red}, {self.color.green}, {self.color.blue}); "
-            f"border-radius: 20px; font: 75 20pt \"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
+            f"background-color:rgb"
+            f"({self.color.red}, {self.color.green}, {self.color.blue}); "
+            f"border-radius: 20px; font: 75 20pt "
+            f"\"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
 
     @staticmethod
     def random_choose_color() -> Color:
