@@ -1,8 +1,7 @@
-import sys
+from sys import argv, exit
 
 from PyQt6.uic import loadUi
-from PyQt6.QtWidgets import (QDialog, QApplication, QStackedWidget,
-                             QMessageBox, QMainWindow, QGridLayout)
+from PyQt6.QtWidgets import *
 
 from src.cell import Cell
 from src.game import Game
@@ -146,7 +145,7 @@ class NewGameScreen(QDialog):
         widget.removeWidget(self)
 
 
-app = QApplication(sys.argv)
+app = QApplication(argv)
 welcome = WelcomeScreen()
 widget = QStackedWidget()
 widget.addWidget(welcome)
@@ -156,6 +155,6 @@ widget.setFixedHeight(800)
 widget.show()
 
 try:
-    sys.exit(app.exec())
+    exit(app.exec())
 except SystemExit:
     print("Exiting")

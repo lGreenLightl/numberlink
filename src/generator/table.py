@@ -1,8 +1,8 @@
-import random
 from collections import defaultdict
+from random import choice, choices
 
-from src.utils import Utils
 from src.generator.path import Path
+from src.utils import Utils
 
 
 class Table:
@@ -52,10 +52,10 @@ class Table:
 
     def random_loop(self, clock=0):
         while True:
-            path, x, y, dx, dy = random.choice(self.list)
+            path, x, y, dx, dy = choice(self.list)
             path2s = self.cached_paths(dx, dy, -x, -y, 0, 1)
             if path2s:
-                path2 = random.choice(path2s)
+                path2 = choice(path2s)
                 joined = Path(path + path2)
 
                 if clock and joined.taping() != clock * 4:
@@ -74,8 +74,8 @@ class Table:
             init_set.add((x, y))
 
             for _ in range(2 * (abs(xn) + abs(yn))):
-                position, = random.choices([Utils.L, Utils.R, Utils.T],
-                                           [1 / self.lr_price, 1 / self.lr_price, 2 / self.t_price])
+                position, = choices([Utils.L, Utils.R, Utils.T],
+                                    [1 / self.lr_price, 1 / self.lr_price, 2 / self.t_price])
                 path.append(position)
                 x, y = x + dx, y + dy
 
@@ -99,4 +99,4 @@ class Table:
 
                 ends = self.cached_paths(dx, dy, xn - x, yn - y, dxn, dyn)
                 if ends:
-                    return Path(tuple(path) + random.choice(ends))
+                    return Path(tuple(path) + choice(ends))

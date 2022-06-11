@@ -1,11 +1,11 @@
-import random
+from random import randint
 
 from PyQt6 import QtCore
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QLabel
 
 from src.color import Color
-from src.color_collection import in_collection, color_collection
+from src.utils import Utils
 
 
 class Cell(QLabel):
@@ -49,10 +49,10 @@ class Cell(QLabel):
     def set_color(self) -> None:
         if self.color == Color(255, 255, 255):
             color = self.random_choose_color()
-            if in_collection(color):
+            if Utils.in_collection(color):
                 color = self.random_choose_color()
         else:
-            color_collection.remove(self.color)
+            Utils.color_collection.remove(self.color)
             color = Color(255, 255, 255)
         self.color = color
         self.setStyleSheet(
@@ -63,7 +63,7 @@ class Cell(QLabel):
 
     @staticmethod
     def random_choose_color() -> Color:
-        red = random.randint(0, 254)
-        green = random.randint(0, 254)
-        blue = random.randint(0, 254)
+        red = randint(0, 254)
+        green = randint(0, 254)
+        blue = randint(0, 254)
         return Color(red, green, blue)

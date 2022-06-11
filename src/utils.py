@@ -1,11 +1,12 @@
-from PyQt6.QtWidgets import QMessageBox
-
-import string
 from collections import defaultdict
+from string import ascii_letters, digits
+
+from PyQt6.QtWidgets import QMessageBox
 
 
 class Utils:
     T, L, R = range(3)
+    color_collection = []
 
     @staticmethod
     def sign(x):
@@ -72,7 +73,7 @@ class Utils:
         try:
             tube_grid, pf = grid.make_tubes()
 
-            letters = string.digits[1:] + string.ascii_letters
+            letters = digits[1:] + ascii_letters
             char = defaultdict(lambda: letters[len(char)])
 
             for x in range(tube_grid.width):
@@ -94,9 +95,19 @@ class Utils:
         mess.exec()
 
     @staticmethod
-    def is_digit(str):
+    def is_digit(line):
         try:
-            int(str)
+            int(line)
             return True
         except ValueError:
             return False
+
+    @staticmethod
+    def in_collection(color) -> bool:
+        answer = False
+        for c in Utils.color_collection:
+            if color == c:
+                answer = True
+                return answer
+        Utils.color_collection.append(color)
+        return answer

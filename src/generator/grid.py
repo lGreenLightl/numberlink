@@ -1,5 +1,5 @@
-from src.utils import Utils
 from src.generator.pair_finder import PairFinder
+from src.utils import Utils
 
 
 class Grid:

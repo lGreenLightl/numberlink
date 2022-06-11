@@ -1,9 +1,9 @@
-import math
+from math import sqrt
 
-from src.size import Size
-from src.utils import Utils
 from src.generator.generator import create_grid
 from src.generator.table import Table
+from src.generator.size import Size
+from src.utils import Utils
 
 
 class Field:
@@ -13,7 +13,7 @@ class Field:
         self.field = self.generate_field()
 
     def generate_field(self):
-        numbers_amount = int(math.sqrt(self.size.width * self.size.height))
+        numbers_amount = int(sqrt(self.size.width * self.size.height))
         min_amount = numbers_amount * 2 // 3
         max_amount = numbers_amount * 3 // 2
         table = Table(2, 1)

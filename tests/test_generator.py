@@ -1,41 +1,43 @@
-import unittest
+from unittest import main, TestCase
 
-from src.field import Field
-from src.size import Size
+from src.generator.field import Field
+from src.generator.size import Size
 
 
-class GeneratorTest(unittest.TestCase):
-    def setUp(self):
-        self.x_small_field = Field(Size(5, 5), 'Квадрат')
-        self.small_field = Field(Size(10, 10), 'Квадрат')
-        self.medium_field = Field(Size(15, 15), 'Квадрат')
-        self.big_field = Field(Size(20, 20), 'Квадрат')
-        self.x_big_field = Field(Size(30, 30), 'Квадрат')
+class GeneratorTest(TestCase):
+    def test_correct_xsmall_field(self):
+        xsmall_field = Field(Size(5, 5), 'Квадрат')
+        self.check_field(xsmall_field)
 
-    def test_correct_pairs_amount(self):
-        first_dictionary = self.pairs_counter(self.x_small_field)
-        second_dictionary = self.pairs_counter(self.small_field)
-        third_dictionary = self.pairs_counter(self.medium_field)
-        fourth_dictionary = self.pairs_counter(self.big_field)
-        fifth_dictionary = self.pairs_counter(self.x_big_field)
+    def test_correct_small_field(self):
+        small_field = Field(Size(10, 10), 'Квадрат')
+        self.check_field(small_field)
 
-        for item in first_dictionary.items():
-            self.assertEqual(item[1], 2)
-        for item in second_dictionary.items():
-            self.assertEqual(item[1], 2)
-        for item in third_dictionary.items():
-            self.assertEqual(item[1], 2)
-        for item in fourth_dictionary.items():
-            self.assertEqual(item[1], 2)
-        for item in fifth_dictionary.items():
+    def test_correct_medium_field(self):
+        medium_field = Field(Size(15, 15), 'Квадрат')
+        self.check_field(medium_field)
+
+    def test_correct_big_field(self):
+        big_field = Field(Size(20, 20), 'Квадрат')
+        self.check_field(big_field)
+
+    def test_correct_xbig_field(self):
+        xbig_field = Field(Size(30, 30), 'Квадрат')
+        self.check_field(xbig_field)
+
+    def check_field(self, field):
+        dictionary = self.count_pairs(field)
+        for item in dictionary.items():
             self.assertEqual(item[1], 2)
 
     @staticmethod
-    def pairs_counter(field):
+    def count_pairs(field):
         pairs_dictionary = {}
+
         for y in range(field.size.height):
             for x in range(field.size.width):
-                if field.field[x][y] not in pairs_dictionary and field.field[x][y] != '.':
+                if (field.field[x][y] not in pairs_dictionary
+                        and field.field[x][y] != '.'):
                     pairs_dictionary[field.field[x][y]] = 1
                 elif field.field[x][y] != '.':
                     pairs_dictionary[field.field[x][y]] += 1
@@ -44,4 +46,4 @@ class GeneratorTest(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    main()

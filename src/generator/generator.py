@@ -1,7 +1,7 @@
-import random
+from random import randrange
 
-from src.utils import Utils
 from src.generator.grid import Grid
+from src.utils import Utils
 
 
 def create_grid(width, height, table, min_amount=0, max_amount=20):
@@ -28,7 +28,7 @@ def create_grid(width, height, table, min_amount=0, max_amount=20):
         tg, _ = grid.make_tubes()
 
         for tries in range(1000):
-            x, y = 2 * random.randrange(width), 2 * random.randrange(height)
+            x, y = 2 * randrange(width), 2 * randrange(height)
 
             if tg[x, y] not in '-|':
                 continue
