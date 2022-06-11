@@ -17,7 +17,7 @@ class GameScreen(QMainWindow):
         self.ResetButton = None
         self.NameLabel = None
         self.ExitButton = None
-        loadUi("ui/GameScreen.ui", self)
+        loadUi("src/ui/GameScreen.ui", self)
         self.ExitButton.clicked.connect(self.exit_game)
         self.NameLabel.setText(game.user_name)
         self.ResetButton.clicked.connect(self.reset_game)
@@ -63,7 +63,7 @@ class WelcomeScreen(QDialog):
         self.ContinueButton = None
         self.ExitButton = None
         self.NewGameButton = None
-        loadUi("ui/WelcomeScreen.ui", self)
+        loadUi("src/ui/WelcomeScreen.ui", self)
         self.NewGameButton.clicked.connect(self.go_to_new_game)
         self.ExitButton.clicked.connect(self.exit_game)
         self.ContinueButton.clicked.connect(self.continue_game)
@@ -100,7 +100,7 @@ class NewGameScreen(QDialog):
         self.NameLineEdit = None
         self.BackButton = None
         self.StartNewGameButton = None
-        loadUi("ui/NewGameScreen.ui", self)
+        loadUi("src/ui/NewGameScreen.ui", self)
         self.StartNewGameButton.clicked.connect(self.start_new_game)
         self.BackButton.clicked.connect(self.back)
 
