@@ -42,7 +42,7 @@ class SolverTest(unittest.TestCase):
 
     @staticmethod
     def load(path):
-        with open(f'../resource/{path}', 'r', encoding='utf-8') as file:
+        with open(f'resource/{path}', 'r', encoding='utf-8') as file:
             return file.read()
 
 
