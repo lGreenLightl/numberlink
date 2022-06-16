@@ -48,7 +48,7 @@ class SolverTest(TestCase):
             for x in range(grid.width):
                 grid[x, y] = finished_field[y][x]
 
-        return Utils.color_tubes(grid)
+        return Utils.get_correct_field(grid)
 
 
 if __name__ == '__main__':

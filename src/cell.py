@@ -49,7 +49,7 @@ class Cell(QLabel):
     def set_color(self) -> None:
         if self.color == Color(255, 255, 255):
             color = self.random_choose_color()
-            if Utils.in_collection(color):
+            if Utils.is_in_collection(color):
                 color = self.random_choose_color()
         else:
             Utils.color_collection.remove(self.color)

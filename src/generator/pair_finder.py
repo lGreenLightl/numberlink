@@ -1,14 +1,16 @@
 class PairFinder:
     def __init__(self, initial=None):
-        self.pf = initial or {}
+        self.dictionary = initial or {}
 
     def find(self, first):
-        if self.pf.get(first, first) == first:
+        """ finds elements pair """
+        if self.dictionary.get(first, first) == first:
             return first
-        pair = self.find(self.pf.get(first, first))
-        self.pf[first] = pair
+        pair = self.find(self.dictionary.get(first, first))
+        self.dictionary[first] = pair
         return pair
 
     def pair(self, first, second):
+        """ set elements pair """
         a_pair, b_pair = self.find(first), self.find(second)
-        self.pf[a_pair] = b_pair
+        self.dictionary[a_pair] = b_pair

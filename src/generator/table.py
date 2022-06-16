@@ -13,17 +13,21 @@ class Table:
         self.list = []
 
     def prepare_table(self, budget):
+        """ initializes the table """
         dx0, dy0 = 0, 1
         for path, (x, y, dx, dy) in self.correct_paths(0, 0, dx0, dy0, budget):
             self.list.append((path, x, y, dx, dy))
             self.dictionary[x, y, dx, dy].append(path)
 
     def cached_paths(self, dx, dy, xn, yn, dxn, dyn):
+        """ returns cached paths starting at (0,0) with direction (dx,dy)
+            and ending at (xn,yn) with direction (dxn,dyn) """
         x, y = Utils.inverse(xn, yn, dx, dy)
         dxk, dyk = Utils.inverse(dxn, dyn, dx, dy)
         return self.dictionary[x, y, dxk, dyk]
 
     def correct_paths(self, x, y, dx, dy, budget, init_set=None):
+        """ gives correct paths """
         if init_set is None:
             init_set = set()
         if budget >= 0:
@@ -51,19 +55,24 @@ class Table:
         init_set.remove((x, y))
 
     def random_loop(self, clock=0):
+        """ return path with overlap """
         while True:
             path, x, y, dx, dy = choice(self.list)
             path2s = self.cached_paths(dx, dy, -x, -y, 0, 1)
             if path2s:
                 path2 = choice(path2s)
-                joined = Path(path + path2)
+                joined_path = Path(path + path2)
 
-                if clock and joined.taping() != clock * 4:
+                if clock and (joined_path.positions.count(Utils.R) -
+                              joined_path.positions.count(Utils.L) !=
+                              clock * 4):
                     continue
-                if joined.check_path_loop():
-                    return joined
+                if joined_path.check_path_loop():
+                    return joined_path
 
     def random_path(self, xn, yn, dxn, dyn):
+        """ returns a path starting at (0,0) with (dx,dy) = (0,1)
+            and ending at (xn,yn) with direction (dxn, dyn) """
         init_set = set()
         path = []
 
@@ -75,7 +84,9 @@ class Table:
 
             for _ in range(2 * (abs(xn) + abs(yn))):
                 position, = choices([Utils.L, Utils.R, Utils.T],
-                                    [1 / self.lr_price, 1 / self.lr_price, 2 / self.t_price])
+                                    [1 / self.lr_price,
+                                     1 / self.lr_price,
+                                     2 / self.t_price])
                 path.append(position)
                 x, y = x + dx, y + dy
 
