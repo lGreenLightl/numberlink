@@ -28,6 +28,7 @@ class GameScreen(QMainWindow):
         self.create_layout()
 
     def create_layout(self):
+        """create new Game grid"""
         grid_layout = QGridLayout()
         for i in range(0, self.Game.field.size.height):
             for j in range(0, self.Game.field.size.width):
@@ -37,6 +38,7 @@ class GameScreen(QMainWindow):
         self.GameWidget.setLayout(grid_layout)
 
     def create_cells(self):
+        """create cells for fixed size game grid"""
         for i in range(0, self.Game.field.size.height):
             c = []
             for j in range(0, self.Game.field.size.width):
@@ -45,12 +47,13 @@ class GameScreen(QMainWindow):
 
     @staticmethod
     def exit_game() -> None:
+        """exit from the Game"""
         widget.close()
 
     def reset_game(self) -> None:
+        """clean all cells and zeroize clicks count"""
         self.ClicksLabel.setText('0')
 
-        # придумать, как адекватно сделать зачистку клеток
         for i in range(0, self.Game.field.size.height):
             for j in range(0, self.Game.field.size.width):
                 self.Cells[i][j].clean_label()
@@ -69,16 +72,19 @@ class WelcomeScreen(QDialog):
 
     @staticmethod
     def go_to_new_game() -> None:
+        """go to new Game creating"""
         new_game = NewGameScreen()
         widget.addWidget(new_game)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
     @staticmethod
     def exit_game() -> None:
+        """exit from the Game"""
         widget.close()
 
     @staticmethod
     def continue_game() -> None:
+        """go to selecting Game from saved Games"""
         mess = QMessageBox()
         mess.setWindowTitle("Недоступно")
         mess.setText("Сохранение и загрузка игр пока недоступны")
@@ -104,6 +110,7 @@ class NewGameScreen(QDialog):
         self.BackButton.clicked.connect(self.back)
 
     def start_new_game(self):
+        """start new Game with selected parameters"""
         if self.NameLineEdit.text() == "":
             self.ErrorSizeLabel.setText("")
             Utils.create_message("Нехватает данных", "Пожалуйста, укажите свое имя")
@@ -141,6 +148,7 @@ class NewGameScreen(QDialog):
             widget.setCurrentIndex(widget.currentIndex() + 1)
 
     def back(self):
+        """go back to start window"""
         self.close()
         widget.removeWidget(self)
 

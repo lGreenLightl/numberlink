@@ -10,4 +10,5 @@ class Game:
         self.field = Field(Size(field_height, field_width), field_form)
 
     def start(self):
+        """start game"""
         pass

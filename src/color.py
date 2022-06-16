@@ -8,6 +8,7 @@ class Color:
     blue: int
 
     def __eq__(self, other):
+        """compare current color with another"""
         return (self.red == other.red and
                 self.green == other.green and
                 self.blue == other.blue)
