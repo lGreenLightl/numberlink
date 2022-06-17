@@ -41,18 +41,10 @@ class Grid:
         for x in range(self.width):
             symbol = '-'
             for y in range(self.height):
-                for dx, dy in {
-                    '/-': [(0, 1)], '\\-': [(1, 0), (0, 1)], '/|': [(1, 0)],
-                    ' -': [(1, 0)], ' |': [(0, 1)], 'v|': [(0, 1)],
-                    '>|': [(1, 0)], 'v-': [(0, 1)], '>-': [(1, 0)],
-                }.get(self[x, y] + symbol, []):
+                for dx, dy in Utils.raw_pipes.get(self[x, y] + symbol, []):
                     pair_finder.pair((x, y), (x + dx, y + dy))
 
-                grid[x, y] = {
-                    '/-': '┐', '\\-': '┌',
-                    '/|': '└', '\\|': '┘',
-                    ' -': '-', ' |': '|',
-                }.get(self[x, y] + symbol, 'x')
+                grid[x, y] = Utils.correct_pipes.get(self[x, y] + symbol, 'x')
 
                 if self[x, y] in '\\/v^':
                     symbol = '|' if symbol == '-' else '-'
@@ -69,15 +61,10 @@ class Grid:
             x, y = paths[i]
             xp, yp = paths[i - 1]
             xn, yn = paths[i + 1]
-            self[x0 - x + y, y0 + x + y] = {
-                (0, 2, 0): '\\', (0, -2, 0): '\\',
-                (2, 0, 0): '/', (-2, 0, 0): '/',
-                (-1, 1, -1): '^', (1, -1, 1): '^',
-                (-1, 1, 1): 'v', (1, -1, -1): 'v',
-                (1, 1, -1): '>', (-1, -1, 1): '>',
-                (1, 1, 1): '<', (-1, -1, -1): '<'
-            }[xn - xp, yn - yp,
-              Utils.sign((x - xp) * (yn - y) - (xn - x) * (y - yp))]
+            self[x0 - x + y, y0 + x + y] = \
+                Utils.path_dictionary[xn - xp, yn - yp,
+                                      Utils.sign
+                                      ((x - xp) * (yn - y) - (xn - x) * (y - yp))]
 
     def clear_path(self, path, x, y):
         """ clears everything contained in the path located at x, y """

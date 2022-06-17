@@ -6,9 +6,9 @@ class Path:
         self.positions = positions
 
     def __repr__(self):
-        return ''.join({Utils.T: '2',
-                        Utils.R: 'R',
-                        Utils.L: 'L'}[position] for position in self.positions)
+        return ''.join({Utils.TWO: '2',
+                        Utils.RIGHT: 'R',
+                        Utils.LEFT: 'L'}[position] for position in self.positions)
 
     def get_positions(self, dx=0, dy=1):
         """ gives all positions on the path """
@@ -19,11 +19,11 @@ class Path:
             x, y = x + dx, y + dy
             yield x, y
 
-            if position == Utils.L:
+            if position == Utils.LEFT:
                 dx, dy = -dy, dx
-            if position == Utils.R:
+            if position == Utils.RIGHT:
                 dx, dy = dy, -dx
-            elif position == Utils.T:
+            elif position == Utils.TWO:
                 x, y = x + dx, y + dy
                 yield x, y
 

@@ -1,3 +1,4 @@
+from argparse import ArgumentParser, RawTextHelpFormatter
 from sys import argv, exit
 
 from PyQt6.uic import loadUi
@@ -30,8 +31,8 @@ class GameScreen(QMainWindow):
     def create_layout(self):
         """create new Game grid"""
         grid_layout = QGridLayout()
-        for i in range(0, self.Game.field.size.height):
-            for j in range(0, self.Game.field.size.width):
+        for i in range(self.Game.field.size.height):
+            for j in range(self.Game.field.size.width):
                 grid_layout.addWidget(self.Cells[i][j], i, j)
 
         self.GameGrid = grid_layout
@@ -42,7 +43,8 @@ class GameScreen(QMainWindow):
         for i in range(0, self.Game.field.size.height):
             c = []
             for j in range(0, self.Game.field.size.width):
-                c.append(Cell(self.Game.field.field[i][j], self.ClicksLabel))
+                c.append(Cell(self.Game.field.field[i][j],
+                              self.ClicksLabel))
             self.Cells.append(c)
 
     @staticmethod
@@ -51,7 +53,7 @@ class GameScreen(QMainWindow):
         widget.close()
 
     def reset_game(self) -> None:
-        """clean all cells and zeroize clicks count"""
+        """clean all cells and reset clicks count"""
         self.ClicksLabel.setText('0')
 
         for i in range(0, self.Game.field.size.height):
@@ -111,24 +113,32 @@ class NewGameScreen(QDialog):
 
     def start_new_game(self):
         """start new Game with selected parameters"""
-        if self.NameLineEdit.text() == "":
+        if not self.NameLineEdit.text():
             self.ErrorSizeLabel.setText("")
-            Utils.create_message("Нехватает данных", "Пожалуйста, укажите свое имя")
+            Utils.create_message("Не хватает данных",
+                                 "Пожалуйста, укажите свое имя")
 
         elif self.LevelComboBox.currentText() == "":
             self.ErrorSizeLabel.setText("")
-            Utils.create_message("Нехватает данных", "Пожалуйста, выберите уровень сложности")
+            Utils.create_message("Не хватает данных",
+                                 "Пожалуйста, выберите уровень сложности")
 
         elif self.FormComboBox.currentText() == "":
             self.ErrorSizeLabel.setText("")
-            Utils.create_message("Нехватает данных", "Пожалуйста, выберите форму поля")
+            Utils.create_message("Не хватает данных",
+                                 "Пожалуйста, выберите форму поля")
         elif self.HeightLabel.text() == "" or self.WidthLabel.text() == "":
             self.ErrorSizeLabel.setText("")
-            Utils.create_message("Нехватает данных", "Пожалуйста, введите размеры поля")
-        elif self.FormComboBox.currentText() == "Квадрат" and self.HeightLabel.text() != self.WidthLabel.text():
+            Utils.create_message("Не хватает данных",
+                                 "Пожалуйста, введите размеры поля")
+        elif (self.FormComboBox.currentText() == "Квадрат" and
+              self.HeightLabel.text() != self.WidthLabel.text()):
             self.ErrorSizeLabel.setText("")
-            Utils.create_message("Ошибка ввода данных", f"Ваша форма поля - {self.FormComboBox.currentText()},\nВысота "
-                                                        f"и ширина поля должны быть одинаковыми!")
+            Utils.create_message("Ошибка ввода данных",
+                                 f"Ваша форма поля - "
+                                 f"{self.FormComboBox.currentText()}"
+                                 f",\nВысота "
+                                 f"и ширина поля должны быть одинаковыми!")
 
         elif (not Utils.is_digit(self.HeightLabel.text()) or
               not Utils.is_digit(self.WidthLabel.text()) or
@@ -152,6 +162,10 @@ class NewGameScreen(QDialog):
         self.close()
         widget.removeWidget(self)
 
+
+args_parser = ArgumentParser(description=Utils.loading(),
+                             formatter_class=RawTextHelpFormatter)
+args_parser.parse_args()
 
 app = QApplication(argv)
 welcome = WelcomeScreen()

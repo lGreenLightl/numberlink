@@ -6,9 +6,9 @@ from src.utils import Utils
 
 
 class Table:
-    def __init__(self, lr_price, t_price):
-        self.lr_price = lr_price
-        self.t_price = t_price
+    def __init__(self, left_right_price, two_price):
+        self.left_right_price = left_right_price
+        self.two_price = two_price
         self.dictionary = defaultdict(list)
         self.list = []
 
@@ -40,17 +40,17 @@ class Table:
 
         if (x1, y1) not in init_set:
             for path, end in self.correct_paths(
-                    x1, y1, -dy, dx, budget - self.lr_price, init_set):
-                yield (Utils.L,) + path, end
+                    x1, y1, -dy, dx, budget - self.left_right_price, init_set):
+                yield (Utils.LEFT,) + path, end
             for path, end in self.correct_paths(
-                    x1, y1, dy, -dx, budget - self.lr_price, init_set):
-                yield (Utils.R,) + path, end
+                    x1, y1, dy, -dx, budget - self.left_right_price, init_set):
+                yield (Utils.RIGHT,) + path, end
             init_set.add((x1, y1))
             x2, y2 = x1 + dx, y1 + dy
             if (x2, y2) not in init_set:
                 for path, end in self.correct_paths(
-                        x2, y2, dx, dy, budget - self.t_price, init_set):
-                    yield (Utils.T,) + path, end
+                        x2, y2, dx, dy, budget - self.two_price, init_set):
+                    yield (Utils.TWO,) + path, end
             init_set.remove((x1, y1))
         init_set.remove((x, y))
 
@@ -63,8 +63,8 @@ class Table:
                 path2 = choice(path2s)
                 joined_path = Path(path + path2)
 
-                if clock and (joined_path.positions.count(Utils.R) -
-                              joined_path.positions.count(Utils.L) !=
+                if clock and (joined_path.positions.count(Utils.RIGHT) -
+                              joined_path.positions.count(Utils.LEFT) !=
                               clock * 4):
                     continue
                 if joined_path.check_path_loop():
@@ -83,10 +83,10 @@ class Table:
             init_set.add((x, y))
 
             for _ in range(2 * (abs(xn) + abs(yn))):
-                position, = choices([Utils.L, Utils.R, Utils.T],
-                                    [1 / self.lr_price,
-                                     1 / self.lr_price,
-                                     2 / self.t_price])
+                position, = choices([Utils.LEFT, Utils.RIGHT, Utils.TWO],
+                                    [1 / self.left_right_price,
+                                     1 / self.left_right_price,
+                                     2 / self.two_price])
                 path.append(position)
                 x, y = x + dx, y + dy
 
@@ -95,11 +95,11 @@ class Table:
 
                 init_set.add((x, y))
 
-                if position == Utils.L:
+                if position == Utils.LEFT:
                     dx, dy = -dy, dx
-                if position == Utils.R:
+                if position == Utils.RIGHT:
                     dx, dy = dy, -dx
-                elif position == Utils.T:
+                elif position == Utils.TWO:
                     x, y = x + dx, y + dy
                     if (x, y) in init_set:
                         break

@@ -2,5 +2,8 @@
 .svn
 __pycache__
 .idea
+.pytest_cache
+
+.coverage
 
 *.pyc

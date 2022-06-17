@@ -5,8 +5,29 @@ from PyQt6.QtWidgets import QMessageBox
 
 
 class Utils:
-    T, L, R = range(3)
+    TWO, LEFT, RIGHT = range(3)
     color_collection = []
+
+    path_dictionary = {
+        (0, 2, 0): '\\', (0, -2, 0): '\\',
+        (2, 0, 0): '/', (-2, 0, 0): '/',
+        (-1, 1, -1): '^', (1, -1, 1): '^',
+        (-1, 1, 1): 'v', (1, -1, -1): 'v',
+        (1, 1, -1): '>', (-1, -1, 1): '>',
+        (1, 1, 1): '<', (-1, -1, -1): '<'
+    }
+
+    correct_pipes = {
+        '/-': '┐', '\\-': '┌',
+        '/|': '└', '\\|': '┘',
+        ' -': '-', ' |': '|',
+    }
+
+    raw_pipes = {
+        '/-': [(0, 1)], '\\-': [(1, 0), (0, 1)], '/|': [(1, 0)],
+        ' -': [(1, 0)], ' |': [(0, 1)], 'v|': [(0, 1)],
+        '>|': [(1, 0)], 'v-': [(0, 1)], '>-': [(1, 0)],
+    }
 
     @staticmethod
     def sign(x):
@@ -120,3 +141,8 @@ class Utils:
                 return answer
         Utils.color_collection.append(color)
         return answer
+
+    @staticmethod
+    def loading():
+        with open('src/resource/help.txt', 'r', encoding='utf-8') as file:
+            return file.read()

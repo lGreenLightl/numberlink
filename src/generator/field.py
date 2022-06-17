@@ -1,5 +1,3 @@
-from math import sqrt
-
 from src.generator.generator import create_raw_grid
 from src.generator.table import Table
 from src.generator.size import Size
@@ -14,22 +12,25 @@ class Field:
 
     def generate_field(self):
         """ generates the correct field """
-        numbers_amount = int(sqrt(self.size.width * self.size.height))
-        min_amount = numbers_amount * 2 // 3
-        max_amount = numbers_amount * 3 // 2
+
+        # if you use a long path in the table,
+        # then the complexity of the puzzle may increase,
+        # but 8 - 10 pairs of numbers
+        # is the best solution for small fields, such as 4x4
         table = Table(2, 1)
         table.prepare_table(min(20, max(self.size.height, 6)))
 
-        grid = create_raw_grid(self.size.width, self.size.height,
-                               table, min_amount, max_amount)
+        grid = create_raw_grid(self.size.width, self.size.height, table)
         finished_field, mapping = Utils.get_correct_field(grid)
 
+        # generates correct field
         field = [['.'] * self.size.width for _ in range(self.size.height)]
         for y in range(self.size.height):
             for x in range(self.size.width):
                 if grid[x, y] in 'v^<>':
                     field[y][x] = finished_field[x, y]
 
+        # prints solved puzzle
         print(repr(finished_field).replace('-', '─').replace('|', '│'))
 
         return field
