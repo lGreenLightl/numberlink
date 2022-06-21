@@ -65,7 +65,8 @@ color:rgb(255, 255, 255)</string>
   padding: 20px;
   width: 200px;
   height: 150px;
-font: 75 10pt &quot;MS Shell Dlg 2&quot;;\ncolor:rgb(67, 65, 49);
+font: 75 10pt &quot;MS Shell Dlg 2&quot;;
+color:rgb(67, 65, 49);
 </string>
     </property>
     <property name="text">
@@ -90,7 +91,8 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;\ncolor:rgb(67, 65, 49);
   padding: 20px;
   width: 200px;
   height: 150px;
-font: 75 10pt &quot;MS Shell Dlg 2&quot;;\ncolor:rgb(67, 65, 49)
+font: 75 10pt &quot;MS Shell Dlg 2&quot;;
+color:rgb(67, 65, 49)
 </string>
     </property>
     <property name="text">
@@ -112,7 +114,8 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;\ncolor:rgb(67, 65, 49)
   padding: 20px;
   width: 200px;
   height: 150px;
-font: 75 10pt &quot;MS Shell Dlg 2&quot;;\ncolor:rgb(67, 65, 49)
+font: 75 10pt &quot;MS Shell Dlg 2&quot;;
+color:rgb(67, 65, 49)
 </string>
     </property>
     <property name="text">

@@ -39,9 +39,7 @@ background-color:qlineargradient(spread:pad, x1:0.003, y1:0.017, x2:1, y2:0.983,
      </property>
      <property name="styleSheet">
       <string notr="true">background-color:rgb(255, 255, 255);
-border-radius: 20px;
-shadow-effect: green
-</string>
+border-radius: 20px;</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -109,7 +107,6 @@ color:rgb(67, 65, 49);
      <property name="styleSheet">
       <string notr="true">background-color:rgb(255, 255, 255);
 border-radius: 20px;
-shadow-effect: green
 </string>
      </property>
      <property name="frameShape">
@@ -177,9 +174,7 @@ color:rgb(67, 65, 49);
      </property>
      <property name="styleSheet">
       <string notr="true">background-color:rgb(255, 255, 255);
-border-radius: 20px;
-shadow-effect: green
-</string>
+border-radius: 20px</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -244,7 +239,7 @@ color:rgb(255, 255, 255);</string>
      <property name="styleSheet">
       <string notr="true">background-color:rgb(248, 244, 255);
 border-radius: 20px;
-shadow-effect: green
+
 
 </string>
      </property>
@@ -261,7 +256,7 @@ shadow-effect: green
      <property name="styleSheet">
       <string notr="true">background-color:rgb(255, 255, 255);
 border-radius: 20px;
-shadow-effect: green
+
 </string>
      </property>
      <property name="frameShape">
