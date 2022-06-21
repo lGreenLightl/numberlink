@@ -19,6 +19,7 @@ class Cell(QLabel):
         super(Cell, self).__init__()
 
         self.color = Color(255, 255, 255)
+
         self.setStyleSheet(
             f"background-color:rgb"
             f"({self.color.red}, {self.color.green}, {self.color.blue}); "
@@ -35,7 +36,42 @@ class Cell(QLabel):
     def click_label(self) -> None:
         """increase click count and change label color"""
         self.increase_click_count()
-        self.set_color()
+        if self.text() != "":
+            if Utils.start == "" and self.color == Color(255, 255, 255):
+                Utils.start = self.text()
+
+            self.set_color()
+
+        else:
+            self.cancel_choice(self.color)
+
+    def cancel_choice(self, c) -> None:
+        Utils.start = ""
+        if c != Color(255, 255, 255):
+            Utils.current_color = Color(255, 255, 255)
+            for i in range(0, len(Utils.cells)):
+                for j in range(0, len(Utils.cells[i])):
+                    if Utils.cells[i][j].color == c:
+                        Utils.cells[i][j].color = Color(255, 255, 255)
+                        Utils.cells[i][j].setStyleSheet(
+                            f"background-color:rgb"
+                            f"(255, 255, 255); "
+                            f"border-radius: 20px; font: 75 20pt "
+                            f"\"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
+
+    def enterEvent(self, e):
+        if Utils.current_color != Color(255, 255, 255) \
+                and self.color == Color(255, 255, 255) \
+                and (self.text() == "" or self.text() == Utils.start):
+            self.color = Color(Utils.current_color.red, Utils.current_color.green, Utils.current_color.blue)
+            self.setStyleSheet(
+                f"background-color:rgb"
+                f"({Utils.current_color.red}, {Utils.current_color.green}, {Utils.current_color.blue}); "
+                f"border-radius: 20px; font: 75 20pt "
+                f"\"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
+            if self.text() == Utils.start:
+                Utils.current_color = Color(255, 255, 255)
+                Utils.start = ""
 
     def clean_label(self) -> None:
         """remove label color"""
@@ -56,15 +92,16 @@ class Cell(QLabel):
             color = self.random_choose_color()
             if Utils.is_in_collection(color):
                 color = self.random_choose_color()
+            self.color = color
+            Utils.current_color = color
+            self.setStyleSheet(
+                f"background-color:rgb"
+                f"({self.color.red}, {self.color.green}, {self.color.blue}); "
+                f"border-radius: 20px; font: 75 20pt "
+                f"\"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
+
         else:
-            Utils.color_collection.remove(self.color)
-            color = Color(255, 255, 255)
-        self.color = color
-        self.setStyleSheet(
-            f"background-color:rgb"
-            f"({self.color.red}, {self.color.green}, {self.color.blue}); "
-            f"border-radius: 20px; font: 75 20pt "
-            f"\"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
+            self.cancel_choice(self.color)
 
     @staticmethod
     def random_choose_color() -> Color:

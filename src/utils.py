@@ -3,10 +3,17 @@ from string import ascii_letters, digits
 
 from PyQt6.QtWidgets import QMessageBox
 
+from src.color import Color
+
 
 class Utils:
     TWO, LEFT, RIGHT = range(3)
     color_collection = []
+    current_color = Color(255, 255, 255)
+    start = ""
+    finish = ""
+    cells = []
+
 
     path_dictionary = {
         (0, 2, 0): '\\', (0, -2, 0): '\\',
