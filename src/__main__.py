@@ -5,6 +5,7 @@ from PyQt6.uic import loadUi
 from PyQt6.QtWidgets import *
 
 from src.cell import Cell
+from src.color import Color
 from src.game import Game
 from src.utils import Utils
 
@@ -24,7 +25,8 @@ class GameScreen(QMainWindow):
         self.ClicksLabel.setText('0')
         self.Game = game
         self.GameGrid = QGridLayout()
-        self.Cells = []
+
+        self.CurrentColor = Color(255, 255, 255)
         self.create_cells()
         self.create_layout()
 
@@ -33,7 +35,7 @@ class GameScreen(QMainWindow):
         grid_layout = QGridLayout()
         for i in range(self.Game.field.size.height):
             for j in range(self.Game.field.size.width):
-                grid_layout.addWidget(self.Cells[i][j], i, j)
+                grid_layout.addWidget(Utils.cells[i][j], i, j)
 
         self.GameGrid = grid_layout
         self.GameWidget.setLayout(grid_layout)
@@ -45,7 +47,7 @@ class GameScreen(QMainWindow):
             for j in range(0, self.Game.field.size.width):
                 c.append(Cell(self.Game.field.field[i][j],
                               self.ClicksLabel))
-            self.Cells.append(c)
+            Utils.cells.append(c)
 
     @staticmethod
     def exit_game() -> None:
@@ -55,10 +57,12 @@ class GameScreen(QMainWindow):
     def reset_game(self) -> None:
         """clean all cells and reset clicks count"""
         self.ClicksLabel.setText('0')
-
+        Utils.start = ""
+        Utils.finish = ""
+        Utils.current_color = Color(255, 255, 255)
         for i in range(0, self.Game.field.size.height):
             for j in range(0, self.Game.field.size.width):
-                self.Cells[i][j].clean_label()
+                Utils.cells[i][j].clean_label()
 
 
 class WelcomeScreen(QDialog):
