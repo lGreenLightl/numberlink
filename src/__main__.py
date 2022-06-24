@@ -26,7 +26,9 @@ class GameScreen(QMainWindow):
         self.Game = game
         self.GameGrid = QGridLayout()
 
-        self.CurrentColor = Color(255, 255, 255)
+        Utils.current_color = Color(255, 255, 255)
+        Utils.current_cell[0] = -1
+        Utils.current_cell[1] = -1
         self.create_cells()
         self.create_layout()
 
@@ -46,7 +48,7 @@ class GameScreen(QMainWindow):
             c = []
             for j in range(0, self.Game.field.size.width):
                 c.append(Cell(self.Game.field.field[i][j],
-                              self.ClicksLabel))
+                              self.ClicksLabel, j, i))
             Utils.cells.append(c)
 
     @staticmethod

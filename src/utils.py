@@ -1,3 +1,4 @@
+import sys
 from collections import defaultdict
 from string import ascii_letters, digits
 
@@ -10,9 +11,11 @@ class Utils:
     TWO, LEFT, RIGHT = range(3)
     color_collection = []
     current_color = Color(255, 255, 255)
+    current_cell = [-1, -1]
     start = ""
     finish = ""
     cells = []
+    best_score = [1000000000000000000000000] * 40
 
 
     path_dictionary = {
