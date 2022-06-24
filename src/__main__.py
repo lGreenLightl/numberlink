@@ -7,6 +7,7 @@ from PyQt6.QtWidgets import *
 from src.cell import Cell
 from src.color import Color
 from src.game import Game
+from src.saver import Saver
 from src.utils import Utils
 
 
@@ -15,12 +16,14 @@ class GameScreen(QMainWindow):
         super(GameScreen, self).__init__()
         self.GameWidget = None
         self.ClicksLabel = None
+        self.SaveButton = None
         self.ResetButton = None
         self.NameLabel = None
         self.ExitButton = None
         loadUi("src/ui/GameScreen.ui", self)
         self.ExitButton.clicked.connect(self.exit_game)
         self.NameLabel.setText(game.user_name)
+        self.SaveButton.clicked.connect(self.save)
         self.ResetButton.clicked.connect(self.reset_game)
         self.ClicksLabel.setText('0')
         self.Game = game
@@ -48,6 +51,9 @@ class GameScreen(QMainWindow):
                 c.append(Cell(self.Game.field.field[i][j],
                               self.ClicksLabel))
             Utils.cells.append(c)
+
+    def save(self):
+        return Saver('src/resource/data').save(self.Game)
 
     @staticmethod
     def exit_game() -> None:
@@ -91,12 +97,10 @@ class WelcomeScreen(QDialog):
     @staticmethod
     def continue_game() -> None:
         """go to selecting Game from saved Games"""
-        mess = QMessageBox()
-        mess.setWindowTitle("Недоступно")
-        mess.setText("Сохранение и загрузка игр пока недоступны")
-        mess.setIcon(QMessageBox.Icon.Information)
-        mess.setStandardButtons(QMessageBox.StandardButton.Ok)
-        mess.exec()
+        saver = Saver('src/resource/data').load()
+        game = GameScreen(saver)
+        widget.addWidget(game)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
 
 
 class NewGameScreen(QDialog):

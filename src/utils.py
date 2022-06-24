@@ -14,7 +14,6 @@ class Utils:
     finish = ""
     cells = []
 
-
     path_dictionary = {
         (0, 2, 0): '\\', (0, -2, 0): '\\',
         (2, 0, 0): '/', (-2, 0, 0): '/',

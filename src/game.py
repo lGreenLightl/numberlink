@@ -5,10 +5,13 @@ from src.generator.size import Size
 class Game:
     def __init__(self, user_name: str, complexity: str,
                  field_form: str, field_width: int,
-                 field_height: int) -> None:
+                 field_height: int, field=None) -> None:
         self.user_name = user_name
         self.complexity = complexity
-        self.field = Field(Size(field_height, field_width), field_form)
+        if field is None:
+            self.field = Field(Size(field_height, field_width), field_form)
+        else:
+            self.field = Field(Size(field_height, field_width), field_form, field)
 
     def start(self):
         """start game"""

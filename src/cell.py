@@ -45,7 +45,8 @@ class Cell(QLabel):
         else:
             self.cancel_choice(self.color)
 
-    def cancel_choice(self, c) -> None:
+    @staticmethod
+    def cancel_choice(c) -> None:
         Utils.start = ""
         if c != Color(255, 255, 255):
             Utils.current_color = Color(255, 255, 255)
@@ -63,10 +64,14 @@ class Cell(QLabel):
         if Utils.current_color != Color(255, 255, 255) \
                 and self.color == Color(255, 255, 255) \
                 and (self.text() == "" or self.text() == Utils.start):
-            self.color = Color(Utils.current_color.red, Utils.current_color.green, Utils.current_color.blue)
+            self.color = Color(Utils.current_color.red,
+                               Utils.current_color.green,
+                               Utils.current_color.blue)
             self.setStyleSheet(
                 f"background-color:rgb"
-                f"({Utils.current_color.red}, {Utils.current_color.green}, {Utils.current_color.blue}); "
+                f"({Utils.current_color.red}, "
+                f"{Utils.current_color.green}, "
+                f"{Utils.current_color.blue}); "
                 f"border-radius: 20px; font: 75 20pt "
                 f"\"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
             if self.text() == Utils.start:

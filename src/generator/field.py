@@ -5,10 +5,13 @@ from src.utils import Utils
 
 
 class Field:
-    def __init__(self, size: Size, form: str) -> None:
+    def __init__(self, size: Size, form: str, field=None) -> None:
         self.form = form
         self.size = size
-        self.field = self.generate_field()
+        if field is None:
+            self.field = self.generate_field()
+        else:
+            self.field = field
 
     def generate_field(self):
         """ generates the correct field """
