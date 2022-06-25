@@ -13,6 +13,3 @@ class Game:
         else:
             self.field = Field(Size(field_height, field_width), field_form, field)
 
-    def start(self):
-        """start game"""
-        pass
