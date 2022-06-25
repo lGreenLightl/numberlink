@@ -21,16 +21,37 @@ class GameScreen(QMainWindow):
         loadUi("src/ui/GameScreen.ui", self)
         self.ExitButton.clicked.connect(self.exit_game)
         self.NameLabel.setText(game.user_name)
+
         self.ResetButton.clicked.connect(self.reset_game)
         self.ClicksLabel.setText('0')
         self.Game = game
+
+        if Utils.best_score[game.field.size.height] == 1000000000000000000000000:
+            self.ScoreLabel.setText("пока нет")
+        else:
+            self.ScoreLabel.setText(str(Utils.best_score[game.field.size.height]))
+
         self.GameGrid = QGridLayout()
 
         Utils.current_color = Color(255, 255, 255)
         Utils.current_cell[0] = -1
         Utils.current_cell[1] = -1
+        Utils.cells.clear()
+        Utils.numbers_in_field.clear()
+        Utils.start = ""
+        Utils.color_collection.clear()
+        Utils.curren_size = game.field.size.height
+        self.get_field_numbers()
         self.create_cells()
         self.create_layout()
+
+    def get_field_numbers(self):
+        """get dictionary with numbers from field"""
+        Utils.numbers_in_field.clear()
+        for i in range(self.Game.field.size.height):
+            for j in range(self.Game.field.size.width):
+                if Utils.is_digit(self.Game.field.field[i][j]):
+                    Utils.numbers_in_field[str(self.Game.field.field[i][j])] = False
 
     def create_layout(self):
         """create new Game grid"""
@@ -48,7 +69,7 @@ class GameScreen(QMainWindow):
             c = []
             for j in range(0, self.Game.field.size.width):
                 c.append(Cell(self.Game.field.field[i][j],
-                              self.ClicksLabel, j, i))
+                              self.ClicksLabel, j, i, self, widget))
             Utils.cells.append(c)
 
     @staticmethod
@@ -154,6 +175,8 @@ class NewGameScreen(QDialog):
             self.ErrorSizeLabel.setText("Некорректный ввод")
 
         else:
+            if widget.count() == 3:
+                widget.removeWidget(GameScreen)
             game = GameScreen(Game(
                 self.NameLineEdit.text(),
                 self.LevelComboBox.currentText(),

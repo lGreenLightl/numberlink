@@ -9,13 +9,17 @@ from src.color import Color
 
 class Utils:
     TWO, LEFT, RIGHT = range(3)
+
     color_collection = []
     current_color = Color(255, 255, 255)
     current_cell = [-1, -1]
     start = ""
-    finish = ""
     cells = []
     best_score = [1000000000000000000000000] * 40
+    numbers_in_field = {}
+    curren_size = 0
+
+
 
 
     path_dictionary = {
@@ -45,6 +49,8 @@ class Utils:
         if x == 0:
             return x
         return -1 if x < 0 else 1
+
+
 
     @staticmethod
     def inverse(x, y, dx, dy):
