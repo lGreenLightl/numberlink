@@ -2,7 +2,7 @@ from random import randint
 
 from PyQt6 import QtCore
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QLabel
+from PyQt6.QtWidgets import QLabel, QMessageBox
 
 from src.color import Color
 from src.utils import Utils
@@ -15,19 +15,21 @@ class Cell(QLabel):
         """extension for the label to track clicks on it"""
         self.clicked.emit()
 
-    def __init__(self, text, click_label, x, y):
+    def __init__(self, text, click_label, x, y, screen, w):
         super(Cell, self).__init__()
 
         self.color = Color(255, 255, 255)
         self.X = x
         self.Y = y
+        self.screen = screen
+        self.widget = w
 
         self.setStyleSheet(
             f"background-color:rgb"
             f"({self.color.red}, {self.color.green}, {self.color.blue}); "
             f"border-radius: 20px; font: 75 20pt "
             f"\"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
-        if text == ".":
+        if not Utils.is_digit(text):
             self.setText("")
         else:
             self.setText(text)
@@ -70,7 +72,11 @@ class Cell(QLabel):
                             f"border-radius: 20px; font: 75 20pt "
                             f"\"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
 
+                        if Utils.cells[i][j].text() != "":
+                            Utils.numbers_in_field[Utils.cells[i][j].text()] = False
+
     def check_cell(self) -> bool:
+        """check, if this cell can be pained"""
         cur_x = Utils.current_cell[0]
         cur_y = Utils.current_cell[1]
         x = self.X
@@ -141,10 +147,10 @@ class Cell(QLabel):
 
     def enterEvent(self, e):
         """set color to label, when pointing the mouse"""
-        if self.check_cell() \
-                and Utils.current_color != Color(255, 255, 255) \
+        if Utils.current_color != Color(255, 255, 255) \
                 and self.color == Color(255, 255, 255) \
-                and (self.text() == "" or self.text() == Utils.start):
+                and (self.text() == "" or self.text() == Utils.start)\
+                and self.check_cell():
             self.color = Color(Utils.current_color.red, Utils.current_color.green, Utils.current_color.blue)
             self.setStyleSheet(
                 f"background-color:rgb"
@@ -157,9 +163,39 @@ class Cell(QLabel):
                 Utils.start = ""
                 Utils.current_cell[0] = -1
                 Utils.current_cell[1] = -1
+                Utils.numbers_in_field[self.text()] = True
+
+                ok = True
+                for num in Utils.numbers_in_field:
+                    if not Utils.numbers_in_field[num]:
+                        ok = False
+                        break
+
+                if ok:
+                    self.preparing_for_new_game()
+
             else:
                 Utils.current_cell[0] = self.X
                 Utils.current_cell[1] = self.Y
+
+
+    def preparing_for_new_game(self):
+        mess = QMessageBox()
+        mess.setWindowTitle("Новая игра")
+        mess.setText("Хочешь сыграть снова?")
+        mess.setIcon(QMessageBox.Icon.Question)
+        mess.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        button = mess.exec()
+
+        if button == QMessageBox.StandardButton.Yes:
+            Utils.best_score[Utils.curren_size] = int(self.ClickLabel.text())
+            self.screen.close()
+            self.widget.removeWidget(self.screen)
+
+
+        else:
+            Utils.best_score[Utils.curren_size] = int(self.ClickLabel.text())
+            self.widget.close()
 
 
     def clean_label(self) -> None:
@@ -171,9 +207,11 @@ class Cell(QLabel):
             f"border-radius: 20px; font: 75 20pt "
             f"\"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
 
+
     def increase_click_count(self) -> None:
         """increase click count"""
         self.ClickLabel.setText(str(int(self.ClickLabel.text()) + 1))
+
 
     def set_color(self) -> None:
         """set color to label"""
@@ -191,6 +229,7 @@ class Cell(QLabel):
 
         else:
             self.cancel_choice(self.color)
+
 
     @staticmethod
     def random_choose_color() -> Color:
