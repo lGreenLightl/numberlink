@@ -12,7 +12,7 @@ from src.utils import Utils
 
 
 class GameScreen(QMainWindow):
-    def __init__(self, game) -> None:
+    def __init__(self, game, clicks=None) -> None:
         super(GameScreen, self).__init__()
         self.GameWidget = None
         self.ClicksLabel = None
@@ -25,7 +25,10 @@ class GameScreen(QMainWindow):
         self.NameLabel.setText(game.user_name)
         self.SaveButton.clicked.connect(self.save)
         self.ResetButton.clicked.connect(self.reset_game)
-        self.ClicksLabel.setText('0')
+        if clicks is None:
+            self.ClicksLabel.setText('0')
+        else:
+            self.ClicksLabel.setText(clicks)
         self.Game = game
 
         if Utils.best_score[game.field.size.height] == 1000000000000000000000000:
@@ -75,7 +78,7 @@ class GameScreen(QMainWindow):
             Utils.cells.append(c)
 
     def save(self):
-        return Saver('src/resource/data').save(self.Game)
+        return Saver('src/resource/data').save(self.Game, self.ClicksLabel.text())
 
     @staticmethod
     def exit_game() -> None:
@@ -120,7 +123,7 @@ class WelcomeScreen(QDialog):
     def continue_game() -> None:
         """go to selecting Game from saved Games"""
         saver = Saver('src/resource/data').load()
-        if saver is None:
+        if saver[0] is None:
             mess = QMessageBox()
             mess.setWindowTitle("Сохраненная игра")
             mess.setText("Нет последней сохраненной игры")
@@ -128,7 +131,7 @@ class WelcomeScreen(QDialog):
             mess.setStandardButtons(QMessageBox.StandardButton.Ok)
             mess.exec()
         else:
-            game = GameScreen(saver)
+            game = GameScreen(saver[0], saver[1])
             widget.addWidget(game)
             widget.setCurrentIndex(widget.currentIndex() + 1)
 
