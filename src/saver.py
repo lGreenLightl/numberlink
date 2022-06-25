@@ -19,8 +19,11 @@ class Saver:
             dump(data, file)
 
     def load(self):
-        with open(self.file_path, 'r') as file:
-            data = load(file)
+        try:
+            with open(self.file_path, 'r') as file:
+                data = load(file)
+        except FileNotFoundError:
+            return None
 
         user_name = data['user_name']
         complexity = data['complexity']

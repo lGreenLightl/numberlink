@@ -98,9 +98,17 @@ class WelcomeScreen(QDialog):
     def continue_game() -> None:
         """go to selecting Game from saved Games"""
         saver = Saver('src/resource/data').load()
-        game = GameScreen(saver)
-        widget.addWidget(game)
-        widget.setCurrentIndex(widget.currentIndex() + 1)
+        if saver is None:
+            mess = QMessageBox()
+            mess.setWindowTitle("Сохраненная игра")
+            mess.setText("Нет последней сохраненной игры")
+            mess.setIcon(QMessageBox.Icon.Warning)
+            mess.setStandardButtons(QMessageBox.StandardButton.Ok)
+            mess.exec()
+        else:
+            game = GameScreen(saver)
+            widget.addWidget(game)
+            widget.setCurrentIndex(widget.currentIndex() + 1)
 
 
 class NewGameScreen(QDialog):
