@@ -213,6 +213,7 @@ widget = QStackedWidget()
 widget.addWidget(welcome)
 widget.setFixedWidth(1200)
 widget.setFixedHeight(800)
+widget.setWindowTitle('Numberlink')
 
 widget.show()
 
