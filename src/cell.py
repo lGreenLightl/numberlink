@@ -40,17 +40,35 @@ class Cell(QLabel):
     def click_label(self) -> None:
         """increase click count, change label color, set start, if it as possible"""
         self.increase_click_count()
+
         if self.text() != "":
+            if Utils.current_color == self.color and self.text() == Utils.start:
 
-            if Utils.start != "" and Utils.start != self.text():
-                self.cancel_choice(Utils.current_color)
+                Utils.current_color = Color(255, 255, 255)
+                Utils.start = ""
+                Utils.current_cell[0] = -1
+                Utils.current_cell[1] = -1
+                Utils.numbers_in_field[self.text()] = True
 
-            if Utils.start == "" and self.color == Color(255, 255, 255):
-                Utils.start = self.text()
-                Utils.current_cell[0] = self.X
-                Utils.current_cell[1] = self.Y
+                ok = True
+                for num in Utils.numbers_in_field:
+                    if not Utils.numbers_in_field[num]:
+                        ok = False
+                        break
 
-            self.set_color()
+                if ok:
+                    self.preparing_for_new_game()
+
+            else:
+                if Utils.start != "" and Utils.start != self.text():
+                    self.cancel_choice(Utils.current_color)
+
+                if Utils.start == "" and self.color == Color(255, 255, 255):
+                    Utils.start = self.text()
+                    Utils.current_cell[0] = self.X
+                    Utils.current_cell[1] = self.Y
+
+                self.set_color()
 
         else:
             self.cancel_choice(self.color)
@@ -161,25 +179,8 @@ class Cell(QLabel):
                 f"border-radius: 20px; font: 75 20pt "
                 f"\"MS Shell Dlg 2\";color:rgb(67, 65, 49);")
 
-            if self.text() == Utils.start:
-                Utils.current_color = Color(255, 255, 255)
-                Utils.start = ""
-                Utils.current_cell[0] = -1
-                Utils.current_cell[1] = -1
-                Utils.numbers_in_field[self.text()] = True
-
-                ok = True
-                for num in Utils.numbers_in_field:
-                    if not Utils.numbers_in_field[num]:
-                        ok = False
-                        break
-
-                if ok:
-                    self.preparing_for_new_game()
-
-            else:
-                Utils.current_cell[0] = self.X
-                Utils.current_cell[1] = self.Y
+            Utils.current_cell[0] = self.X
+            Utils.current_cell[1] = self.Y
 
     def preparing_for_new_game(self):
         mess = QMessageBox()
