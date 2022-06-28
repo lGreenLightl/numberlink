@@ -91,7 +91,7 @@ class GameScreen(QMainWindow):
         """clean all cells and reset clicks count"""
         self.ClicksLabel.setText('0')
         Utils.start = ""
-        Utils.finish = ""
+        Utils.finish = "empty"
         Utils.current_color = Color(255, 255, 255)
         for i in range(0, self.Game.field.size.height):
             for j in range(0, self.Game.field.size.width):
