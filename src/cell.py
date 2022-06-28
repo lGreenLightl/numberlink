@@ -21,6 +21,7 @@ class Cell(QLabel):
         self.color = Color(255, 255, 255)
         self.X = x
         self.Y = y
+        self.start = False
         self.screen = screen
         self.widget = w
 
@@ -42,22 +43,27 @@ class Cell(QLabel):
         self.increase_click_count()
 
         if self.text() != "":
-            if Utils.current_color == self.color and self.text() == Utils.start:
+            if Utils.current_color == self.color and self.text() == Utils.start and not self.start:
+                if Utils.finish == "true":
+                    Utils.current_color = Color(255, 255, 255)
+                    Utils.start = ""
+                    Utils.finish = "empty"
+                    Utils.current_cell[0] = -1
+                    Utils.current_cell[1] = -1
+                    Utils.numbers_in_field[self.text()] = True
+                    for i in range(0, len(Utils.cells)):
+                        for j in range(0, len(Utils.cells[i])):
+                            Utils.cells[i][j].start = False
+                    ok = True
+                    for num in Utils.numbers_in_field:
+                        if not Utils.numbers_in_field[num]:
+                            ok = False
+                            break
 
-                Utils.current_color = Color(255, 255, 255)
-                Utils.start = ""
-                Utils.current_cell[0] = -1
-                Utils.current_cell[1] = -1
-                Utils.numbers_in_field[self.text()] = True
-
-                ok = True
-                for num in Utils.numbers_in_field:
-                    if not Utils.numbers_in_field[num]:
-                        ok = False
-                        break
-
-                if ok:
-                    self.preparing_for_new_game()
+                    if ok:
+                        self.preparing_for_new_game()
+                else:
+                    self.cancel_choice(self.color)
 
             else:
                 if Utils.start != "" and Utils.start != self.text():
@@ -65,26 +71,33 @@ class Cell(QLabel):
 
                 if Utils.start == "" and self.color == Color(255, 255, 255):
                     Utils.start = self.text()
+                    self.start = True
+
                     Utils.current_cell[0] = self.X
                     Utils.current_cell[1] = self.Y
 
-                self.set_color()
+                if Utils.current_color == Color(255, 255, 255):
+                    self.set_color()
 
         else:
+            color = Utils.current_color
             self.cancel_choice(self.color)
+            self.cancel_choice(color)
 
-  
     def cancel_choice(self, c) -> None:
         """end color session"""
         Utils.start = ""
+        Utils.finish = "empty"
         Utils.current_cell[0] = -1
         Utils.current_cell[1] = -1
+
         if c != Color(255, 255, 255):
             Utils.current_color = Color(255, 255, 255)
             for i in range(0, len(Utils.cells)):
                 for j in range(0, len(Utils.cells[i])):
                     if Utils.cells[i][j].color == c:
                         Utils.cells[i][j].color = Color(255, 255, 255)
+                        Utils.cells[i][j].start = False
                         Utils.cells[i][j].setStyleSheet(
                             f"background-color:rgb"
                             f"(255, 255, 255); "
@@ -170,6 +183,10 @@ class Cell(QLabel):
                 and self.color == Color(255, 255, 255) \
                 and (self.text() == "" or self.text() == Utils.start) \
                 and self.check_cell():
+
+            if Utils.finish == "true":
+                Utils.finish = "false"
+
             self.color = Color(Utils.current_color.red, Utils.current_color.green, Utils.current_color.blue)
             self.setStyleSheet(
                 f"background-color:rgb"
@@ -181,6 +198,12 @@ class Cell(QLabel):
 
             Utils.current_cell[0] = self.X
             Utils.current_cell[1] = self.Y
+
+        if self.text() == Utils.start and not self.start and self.color == Utils.current_color \
+                and Utils.finish == "empty" \
+                and Utils.current_color != Color(255, 255, 255):
+            Utils.finish = "true"
+
 
     def preparing_for_new_game(self):
         mess = QMessageBox()

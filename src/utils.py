@@ -14,6 +14,7 @@ class Utils:
     current_color = Color(255, 255, 255)
     current_cell = [-1, -1]
     start = ""
+    finish = "empty"
     cells = []
     best_score = [1000000000000000000000000] * 40
     best_current_size_score = ""
