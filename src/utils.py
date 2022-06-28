@@ -16,6 +16,7 @@ class Utils:
     start = ""
     cells = []
     best_score = [1000000000000000000000000] * 40
+    best_current_size_score = ""
     numbers_in_field = {}
     curren_size = 0
 
