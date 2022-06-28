@@ -33,8 +33,10 @@ class GameScreen(QMainWindow):
 
         if Utils.best_score[game.field.size.height] == 1000000000000000000000000:
             self.ScoreLabel.setText("пока нет")
+            Utils.best_current_size_score = "0"
         else:
             self.ScoreLabel.setText(str(Utils.best_score[game.field.size.height]))
+            Utils.best_current_size_score = str(Utils.best_score[game.field.size.height])
 
         self.GameGrid = QGridLayout()
 
