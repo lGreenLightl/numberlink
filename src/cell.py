@@ -66,7 +66,8 @@ class Cell(QLabel):
                     self.cancel_choice(self.color)
 
             else:
-                if Utils.start != "" and Utils.start != self.text():
+                print("here")
+                if Utils.start != "":
                     self.cancel_choice(Utils.current_color)
 
                 if Utils.start == "" and self.color == Color(255, 255, 255):
