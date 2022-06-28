@@ -60,7 +60,8 @@ class Cell(QLabel):
                     self.preparing_for_new_game()
 
             else:
-                if Utils.start != "" and Utils.start != self.text():
+                print("here")
+                if Utils.start != "":
                     self.cancel_choice(Utils.current_color)
 
                 if Utils.start == "" and self.color == Color(255, 255, 255):
