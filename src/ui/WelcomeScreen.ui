@@ -99,11 +99,34 @@ color:rgb(67, 65, 49)
      <string>ПРОДОЛЖИТЬ</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="ExitButton">
+      <widget class="QPushButton" name="TopButton">
     <property name="geometry">
      <rect>
       <x>480</x>
       <y>560</y>
+      <width>241</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 25px;
+  background: #FFFFFF;
+  padding: 20px;
+  width: 200px;
+  height: 150px;
+font: 75 10pt &quot;MS Shell Dlg 2&quot;;
+color:rgb(67, 65, 49)
+</string>
+    </property>
+    <property name="text">
+     <string>ТОП ИГРОКОВ</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ExitButton">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>660</y>
       <width>241</width>
       <height>61</height>
      </rect>

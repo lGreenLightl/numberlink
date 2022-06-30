@@ -160,11 +160,6 @@ color:rgb(67, 65, 49)</string>
      </property>
      <item>
       <property name="text">
-       <string/>
-      </property>
-     </item>
-     <item>
-      <property name="text">
        <string>Легкий</string>
       </property>
      </item>
@@ -206,11 +201,6 @@ padding-left: 10px;
 font: 75 10pt &quot;MS Shell Dlg 2&quot;;
 color:rgb(67, 65, 49)</string>
      </property>
-     <item>
-      <property name="text">
-       <string/>
-      </property>
-     </item>
      <item>
       <property name="text">
        <string>Квадрат</string>

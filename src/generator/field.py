@@ -33,7 +33,4 @@ class Field:
                 if grid[x, y] in 'v^<>':
                     field[y][x] = finished_field[x, y]
 
-        # prints solved puzzle
-        print(repr(finished_field).replace('-', '─').replace('|', '│'))
-
         return field

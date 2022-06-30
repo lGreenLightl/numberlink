@@ -1,4 +1,3 @@
-import sys
 from collections import defaultdict
 from string import ascii_letters, digits
 
@@ -19,9 +18,8 @@ class Utils:
     best_score = [1000000000000000000000000] * 40
     best_current_size_score = ""
     numbers_in_field = {}
-    curren_size = 0
-
-
+    current_size = 0
+    current_name = ''
 
     path_dictionary = {
         (0, 2, 0): '\\', (0, -2, 0): '\\',
@@ -50,8 +48,6 @@ class Utils:
         if x == 0:
             return x
         return -1 if x < 0 else 1
-
-
 
     @staticmethod
     def inverse(x, y, dx, dy):
