@@ -45,7 +45,8 @@ class Cell(QLabel):
         self.increase_click_count()
 
         if self.text() != "":
-            if Utils.current_color == self.color and self.text() == Utils.start and not self.start:
+            if Utils.current_color == self.color and \
+                    self.text() == Utils.start and not self.start:
                 if Utils.finish == "true":
                     Utils.current_color = Color(255, 255, 255)
                     Utils.start = ""
@@ -68,7 +69,6 @@ class Cell(QLabel):
                     self.cancel_choice(self.color)
 
             else:
-                print("here")
                 if Utils.start != "":
                     self.cancel_choice(Utils.current_color)
 
@@ -190,7 +190,9 @@ class Cell(QLabel):
             if Utils.finish == "true":
                 Utils.finish = "false"
 
-            self.color = Color(Utils.current_color.red, Utils.current_color.green, Utils.current_color.blue)
+            self.color = Color(Utils.current_color.red,
+                               Utils.current_color.green,
+                               Utils.current_color.blue)
             self.setStyleSheet(
                 f"background-color:rgb"
                 f"({Utils.current_color.red}, "
@@ -202,11 +204,11 @@ class Cell(QLabel):
             Utils.current_cell[0] = self.X
             Utils.current_cell[1] = self.Y
 
-        if self.text() == Utils.start and not self.start and self.color == Utils.current_color \
+        if self.text() == Utils.start and not self.start and \
+                self.color == Utils.current_color \
                 and Utils.finish == "empty" \
                 and Utils.current_color != Color(255, 255, 255):
             Utils.finish = "true"
-
 
     def preparing_for_new_game(self):
         Saver('src/resource/top').save_score(Utils.current_name,

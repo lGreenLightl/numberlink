@@ -25,7 +25,8 @@ class GameScreen(QMainWindow):
         self.NameLabel.setText(game.user_name)
         self.SaveButton.clicked.connect(self.save)
         self.ResetButton.clicked.connect(self.reset_game)
-        self.top_saver = Saver('src/resource/top').load_score(game.user_name, game.field.size.height)
+        self.top_saver = Saver('src/resource/top').load_score(
+            game.user_name, game.field.size.height)
         self.colors = colors
 
         if clicks is None:
