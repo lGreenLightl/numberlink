@@ -114,7 +114,7 @@ class GameScreen(QMainWindow):
         self.ClicksLabel.setText('0')
         self.get_field_numbers()
         Utils.start = ""
-        Utils.finish = ""
+        Utils.finish = "empty"
         Utils.current_color = Color(255, 255, 255)
         for i in range(0, self.Game.field.size.height):
             for j in range(0, self.Game.field.size.width):
