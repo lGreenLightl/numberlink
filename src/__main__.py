@@ -12,7 +12,7 @@ from src.utils import Utils
 
 
 class GameScreen(QMainWindow):
-    def __init__(self, game, clicks=None) -> None:
+    def __init__(self, game, clicks=None, colors=None) -> None:
         super(GameScreen, self).__init__()
         self.GameWidget = None
         self.ClicksLabel = None
@@ -25,18 +25,23 @@ class GameScreen(QMainWindow):
         self.NameLabel.setText(game.user_name)
         self.SaveButton.clicked.connect(self.save)
         self.ResetButton.clicked.connect(self.reset_game)
+        self.top_saver = Saver('src/resource/top').load_score(game.user_name, game.field.size.height)
+        self.colors = colors
+
         if clicks is None:
             self.ClicksLabel.setText('0')
         else:
             self.ClicksLabel.setText(clicks)
         self.Game = game
 
-        if Utils.best_score[game.field.size.height] == 1000000000000000000000000:
+        if self.top_saver is None:
             self.ScoreLabel.setText("пока нет")
             Utils.best_current_size_score = "0"
+            Utils.current_name = game.user_name
         else:
-            self.ScoreLabel.setText(str(Utils.best_score[game.field.size.height]))
-            Utils.best_current_size_score = str(Utils.best_score[game.field.size.height])
+            self.ScoreLabel.setText(str(self.top_saver))
+            Utils.best_current_size_score = str(self.top_saver)
+            Utils.current_name = game.user_name
 
         self.GameGrid = QGridLayout()
 
@@ -44,11 +49,11 @@ class GameScreen(QMainWindow):
         Utils.current_cell[0] = -1
         Utils.current_cell[1] = -1
         Utils.cells.clear()
-        Utils.numbers_in_field.clear()
         Utils.start = ""
         Utils.color_collection.clear()
-        Utils.curren_size = game.field.size.height
-        self.get_field_numbers()
+        Utils.current_size = game.field.size.height
+        if clicks is None:
+            self.get_field_numbers()
         self.create_cells()
         self.create_layout()
 
@@ -75,12 +80,29 @@ class GameScreen(QMainWindow):
         for i in range(0, self.Game.field.size.height):
             c = []
             for j in range(0, self.Game.field.size.width):
-                c.append(Cell(self.Game.field.field[i][j],
-                              self.ClicksLabel, j, i, self, widget))
+                if self.colors is None:
+                    c.append(Cell(self.Game.field.field[i][j],
+                                  self.ClicksLabel, j, i, self, widget))
+                else:
+                    c.append(Cell(self.Game.field.field[i][j],
+                                  self.ClicksLabel, j, i, self, widget,
+                                  self.colors[i][j][0],
+                                  self.colors[i][j][1],
+                                  self.colors[i][j][2]))
             Utils.cells.append(c)
 
     def save(self):
-        return Saver('src/resource/data').save(self.Game, self.ClicksLabel.text())
+        self.colors = []
+        for i in range(0, self.Game.field.size.height):
+            current_colors = []
+            for j in range(0, self.Game.field.size.width):
+                current_colors.append((Utils.cells[i][j].color.red,
+                                       Utils.cells[i][j].color.green,
+                                       Utils.cells[i][j].color.blue))
+            self.colors.append(current_colors)
+        return Saver('src/resource/data').save(self.Game,
+                                               self.ClicksLabel.text(),
+                                               self.colors)
 
     @staticmethod
     def exit_game() -> None:
@@ -90,6 +112,7 @@ class GameScreen(QMainWindow):
     def reset_game(self) -> None:
         """clean all cells and reset clicks count"""
         self.ClicksLabel.setText('0')
+        self.get_field_numbers()
         Utils.start = ""
         Utils.finish = ""
         Utils.current_color = Color(255, 255, 255)
@@ -104,10 +127,12 @@ class WelcomeScreen(QDialog):
         self.ContinueButton = None
         self.ExitButton = None
         self.NewGameButton = None
+        self.TopButton = None
         loadUi("src/ui/WelcomeScreen.ui", self)
         self.NewGameButton.clicked.connect(self.go_to_new_game)
         self.ExitButton.clicked.connect(self.exit_game)
         self.ContinueButton.clicked.connect(self.continue_game)
+        self.TopButton.clicked.connect(self.show_top_players)
 
     @staticmethod
     def go_to_new_game() -> None:
@@ -125,7 +150,7 @@ class WelcomeScreen(QDialog):
     def continue_game() -> None:
         """go to selecting Game from saved Games"""
         saver = Saver('src/resource/data').load()
-        if saver[0] is None:
+        if saver is None:
             mess = QMessageBox()
             mess.setWindowTitle("Сохраненная игра")
             mess.setText("Нет последней сохраненной игры")
@@ -133,7 +158,25 @@ class WelcomeScreen(QDialog):
             mess.setStandardButtons(QMessageBox.StandardButton.Ok)
             mess.exec()
         else:
-            game = GameScreen(saver[0], saver[1])
+            game = GameScreen(saver[0], saver[1], saver[2])
+            widget.addWidget(game)
+            widget.setCurrentIndex(widget.currentIndex() + 1)
+
+    def show_top_players(self) -> None:
+        result, ok = QInputDialog().getInt(self, 'Топ для поля NxN',
+                                           'Введите длину стороны поля (одно число)',
+                                           0, 3)
+
+        data = Saver('src/resource/top').load_top(result)
+        if data is None and ok:
+            mess = QMessageBox()
+            mess.setWindowTitle("Размер поля")
+            mess.setText("Для данного размера нет топа")
+            mess.setIcon(QMessageBox.Icon.Warning)
+            mess.setStandardButtons(QMessageBox.StandardButton.Ok)
+            mess.exec()
+        elif data is not None and ok:
+            game = PlayersTopScreen(data)
             widget.addWidget(game)
             widget.setCurrentIndex(widget.currentIndex() + 1)
 
@@ -201,6 +244,43 @@ class NewGameScreen(QDialog):
                 int(self.HeightLabel.text())))
             widget.addWidget(game)
             widget.setCurrentIndex(widget.currentIndex() + 1)
+
+    def back(self):
+        """go back to start window"""
+        self.close()
+        widget.removeWidget(self)
+
+
+class PlayersTopScreen(QDialog):
+    def __init__(self, data) -> None:
+        super(PlayersTopScreen, self).__init__()
+
+        self.BackButton = None
+        self.tableWidget = None
+        self.data = data
+        loadUi("src/ui/PlayersTopScreen.ui", self)
+        self.add_top_players()
+        self.BackButton.clicked.connect(self.back)
+
+    def add_top_players(self):
+        for keys, values in self.data.items():
+            self.data[keys] = int(values)
+
+        sorted_values = sorted(self.data.values())
+        sorted_dict = {}
+
+        for value in sorted_values:
+            for keys in self.data.keys():
+                if self.data[keys] == value:
+                    sorted_dict[keys] = self.data[keys]
+
+        counter = 0
+        for keys, values in sorted_dict.items():
+            self.tableWidget.setItem(counter, 0, QTableWidgetItem(keys))
+            self.tableWidget.setItem(counter, 1, QTableWidgetItem(str(values)))
+            counter += 1
+            if counter == 10:
+                break
 
     def back(self):
         """go back to start window"""

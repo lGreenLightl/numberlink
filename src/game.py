@@ -12,4 +12,3 @@ class Game:
             self.field = Field(Size(field_height, field_width), field_form)
         else:
             self.field = Field(Size(field_height, field_width), field_form, field)
-

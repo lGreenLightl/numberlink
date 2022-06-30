@@ -5,6 +5,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QLabel, QMessageBox
 
 from src.color import Color
+from src.saver import Saver
 from src.utils import Utils
 
 
@@ -15,10 +16,11 @@ class Cell(QLabel):
         """extension for the label to track clicks on it"""
         self.clicked.emit()
 
-    def __init__(self, text, click_label, x, y, screen, w):
+    def __init__(self, text, click_label, x, y, screen, w,
+                 red=255, green=255, blue=255):
         super(Cell, self).__init__()
 
-        self.color = Color(255, 255, 255)
+        self.color = Color(red, green, blue)
         self.X = x
         self.Y = y
         self.screen = screen
@@ -60,7 +62,6 @@ class Cell(QLabel):
                     self.preparing_for_new_game()
 
             else:
-                print("here")
                 if Utils.start != "":
                     self.cancel_choice(Utils.current_color)
 
@@ -74,8 +75,8 @@ class Cell(QLabel):
         else:
             self.cancel_choice(self.color)
 
-  
-    def cancel_choice(self, c) -> None:
+    @staticmethod
+    def cancel_choice(c) -> None:
         """end color session"""
         Utils.start = ""
         Utils.current_cell[0] = -1
@@ -122,7 +123,6 @@ class Cell(QLabel):
                         or (cur_x == x - 1 and cur_y == y)):
                     return True
                 return False
-
 
         elif y == length:
             if x == 0:
@@ -171,7 +171,9 @@ class Cell(QLabel):
                 and self.color == Color(255, 255, 255) \
                 and (self.text() == "" or self.text() == Utils.start) \
                 and self.check_cell():
-            self.color = Color(Utils.current_color.red, Utils.current_color.green, Utils.current_color.blue)
+            self.color = Color(Utils.current_color.red,
+                               Utils.current_color.green,
+                               Utils.current_color.blue)
             self.setStyleSheet(
                 f"background-color:rgb"
                 f"({Utils.current_color.red}, "
@@ -184,17 +186,23 @@ class Cell(QLabel):
             Utils.current_cell[1] = self.Y
 
     def preparing_for_new_game(self):
+        Saver('src/resource/top').save_score(Utils.current_name,
+                                             Utils.current_size,
+                                             self.ClickLabel.text())
+
         mess = QMessageBox()
         mess.setWindowTitle("ПОБЕДА!")
         m = ""
 
-        if Utils.best_current_size_score == "0" or int(Utils.best_current_size_score) > int(self.ClickLabel.text()):
+        if Utils.best_current_size_score == "0" or \
+                int(Utils.best_current_size_score) > int(self.ClickLabel.text()):
             m = "У вас новый лучший счет для текущего размера!\n"
-            Utils.best_score[Utils.curren_size] = int(self.ClickLabel.text())
+            Utils.best_score[Utils.current_size] = int(self.ClickLabel.text())
 
         mess.setText("Поздравляю с победой!\n" + m + "Хотите сыграть снова?")
         mess.setIcon(QMessageBox.Icon.Question)
-        mess.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        mess.setStandardButtons(QMessageBox.StandardButton.Yes |
+                                QMessageBox.StandardButton.No)
         button = mess.exec()
 
         if button == QMessageBox.StandardButton.Yes:
